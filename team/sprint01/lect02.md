@@ -4,7 +4,9 @@ Mentor: Avishek De, Vivian Ross
 
 Type of Meeting: Daily Scrum
 
-Team: Everyone present
+Team: Everyone present Dylan [x] Wesley [x] Luke [x] Tianyu [x] Cyril [x] Ye [x]
+
+*Scribed discussion*:
 
 Dylan did the homework and made a pull request for the lab01 personal md. Dylan is planning to do whatever is in Lect02 and Lab01. No blockers for right now.
 
