@@ -1,0 +1,3 @@
+Hey guys I'm Tianyu. I am a third year CS student (just got transfered from EE last quarter) and I would like to have more time to learn from you guys throughout this quarter!
+I had project experience of web application and andriod mobile application mostly using Java (Spring, React, andriod...)
+I'm not sure if any of you guys did initialize the project idea, so for me right now Im open to any idea with the project
