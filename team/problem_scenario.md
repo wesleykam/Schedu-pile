@@ -1,0 +1,7 @@
+# Problem Scenario
+
+## Person: Eleanor, aged 22, cafe worker/student
+
+Eleanor clocks into work at the cafe she works at and works there from 8 to 4 PM. Before Eleanor gets off work, her boss asks her to help scheduling everyone’s shifts for the next few weeks. She looks through all of the sticky notes that everyone has laid out with their rough time availabilities and messages people. For the people she doesn’t have their numbers written down for, she asks the other employees to see if they can let them know. They will get back to her eventually so she leaves work. The next day she comes back she works again but people have messaged her from numbers she doesn’t know saying that they aren’t available then. She then has to spend a bunch more time rescheduling everything. 
+
+By using our product instead, she wouldn’t have to sift through a bunch of sticky notes that has everyone’s time availabilities from several weeks ago written down. Instead, she would have up to date information on everyone’s availabilities. Instead of having to text people to text people, she could tell them directly through the scheduling app and have a cleaner dispute system. Additionally, she wouldn’t have to schedule things by hand but a computer program would automatically help.
