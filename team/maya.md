@@ -1,0 +1,1 @@
+I'm second year CS student. In this project, we can create something that can actually help peope plan as they cook rather than just showing the recipe.
