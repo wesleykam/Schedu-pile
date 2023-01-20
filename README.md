@@ -1,6 +1,6 @@
 # Weekly Schedule Compiler
 
-idk yet
+Compile a group's weekly schedules to find times where everyone is available or create a part-time schdule that takes into account everyone's availabilities.
 
 List of members: 
 * Wesley Kam (wesleykam)
