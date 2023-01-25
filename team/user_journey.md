@@ -1,5 +1,8 @@
 # User Journey
 
+As a user, I can login to the website so that it saves my information each time I use it.
+As a user, I can navigate through the website using a navigation bar so that I can select which functionality I want to use.
+
 As a group manager, I can compile all the google calendars of my group members into one calendar to look for shared open timeslots
 As a group manager, I can search for open timeslots using a filter for the minimum duration of these open slots, which can speed up the search when looking for an hour long openings vs openings a few minutes long.
 
