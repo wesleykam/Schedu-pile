@@ -1,5 +1,4 @@
 import { Button, Form } from "react-bootstrap";
-import {Text} from "react-native";
 // import { useForm } from "react-hook-form";
 
 function CreateGroupForm( {submitAction} ) {
@@ -12,7 +11,7 @@ function CreateGroupForm( {submitAction} ) {
     return (
       // <Form onSubmit={handleSubmit(submitAction)}>
       <div >
-        <Form style={{fontSize: "25px"}} className = "text-decoration-underline d-flex justify-content-center align-items-center">
+        <Form style={{fontSize: "25px"}} className = "d-flex justify-content-center align-items-center">
           <fieldset>
             <label>
               <p>Name</p>
@@ -20,8 +19,7 @@ function CreateGroupForm( {submitAction} ) {
             </label>
           </fieldset>
         </Form>
-        <Text>{'\n'}</Text>
-        <Form style={{fontSize: "25px"}} className = "text-decoration-underline d-flex justify-content-center align-items-center">
+        <Form style={{fontSize: "25px", marginBottom: "30px", marginTop: "30px"}} className = "d-flex justify-content-center align-items-center">
           <fieldset>
             <label>
               <p>Group Description</p>
@@ -29,8 +27,6 @@ function CreateGroupForm( {submitAction} ) {
             </label>
           </fieldset>
         </Form>
-        <Text>{'\n\n\n'}</Text>
-
         <Form className = "text-decoration-underline d-flex justify-content-center align-items-center">
           <Button type="submit" data-testid="CreateGroupForm-Create-Button" style={{fontSize: "30px"}}>Create!</Button>
         </Form>
