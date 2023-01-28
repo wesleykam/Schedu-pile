@@ -4,7 +4,7 @@ Compile a group's weekly schedules to find times where everyone is available or 
 
 # Tech Stack
 
-Firebase, Express, React, Node, Heroku
+MongoDB, Express, React, Node, Heroku
 
 # Description 
 
