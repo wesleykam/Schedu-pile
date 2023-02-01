@@ -11,6 +11,7 @@ function isLoggedIn(req, res, next) {
 router.get(
   '/google',
   passport.authenticate('google', {
+    accessType: 'offline',
     scope: [
       'email',
       'profile',

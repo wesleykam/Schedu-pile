@@ -3,10 +3,12 @@ const session = require('express-session');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
 const authRoutes = require('./routes/auth-routes');
 const keys = require('./config/keys');
 
-const port = 8000;
+require('dotenv').config();
 
 const app = express();
 
@@ -54,4 +56,14 @@ app.get('/', (req, res) => {
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
-app.listen(port, () => console.log('listening on port:', port));
+mongoose.set("strictQuery", true);
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => { 
+        app.listen(process.env.PORT, () => {
+            console.log('connected to db & listening on port', process.env.PORT)
+        })
+    })
+    .catch((error) => {
+        console.log(error)
+    })
