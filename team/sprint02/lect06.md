@@ -10,14 +10,14 @@ Team: Everyone Present
 
 _Scribed Discussion_
 
-Dylan finished up drawing the wireframe for detailing the layout of our project and planned out what data types and variables we need for our database. He plans on working on implementing components for the pages we need. No blockers for now.
+Dylan looked at a few PRs and accepted some of them. He is planning to learn about the Google Calendar API and how to use it with OAuth. He is currently stumped with how to make OAuth work with Google Calendars.
 
-Wesley created our Heroku app and implemented a navigation bar for our app and made a pull request for that. He will update the `README.md` for lab02. No blockers.
+Tianyu is currently watching tutorials on express and mongoDB, the mongoDB atlas document, and finshing last HW. He is going to search more on how Google calender apis works with backend and database. Tianyu is currently having some issues with pushing files onto github (gitignore etc...).
 
-Maya watched tutorials and learned react and express, and started making the login page for our app. She will finish up the login page, and plans on learning more on react and git. No blockers.
+Maya finished up the pull request from sprint02 and watched some react tutorials. She is working on thinking of more issues and working on them once she does.
 
-Luke worked on the log-in button for our app, and will finish that and make a PR for it. He also plans on writing our `conventions.md` page. No blockers.
+Luke finished adding Google OAuth to button but he needs to fix the dependencies for the Google OAuth and plan out more issues for our MVP.
 
-Tianyu finished the previous homework and set up our firebase environment. He plans on finishing setting up firebase and learning more about how to use it. No blockers.
+Wesley PR'd placeholder files for backend and is planning to create roadmap for MVP.
 
-Cyril worked on setting up Google OAth and thinking of more issues to work on. He plans on finishing up this issue and to work on creating more page components for the other pages of our app. One blocker is that his current issue overlaps with Luke's, so he may let Luke do his and work on a separate issue.
+Cyril watched more tutorials on react/node and looked at google API documentation. He will create more issues towards MVP and start working on them.
