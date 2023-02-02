@@ -17,3 +17,9 @@ Luke plans to learn more about react/ get comfortable making web pages etc. this
 Wesley plans to watch tutorials to refresh his memory and learn react, node, and express, mainly focusing on conventional styling. For week 4, he plans to learn google calendar API and how to connect it to firebase.
 
 Dylan is planning to learn the basics of Node and Express (Watch tutorials on them and use the class links) during week 3. During week 4, he will learn how to do authentication on Firebase using Node and Express to access Google Calendar API.
+
+## Lab 3 Deliverable
+
+Tianyu posted a video on setting up Firebase environment.
+Wesley posted a tutorial video on the MERN stack (MongoDB, Express, React, Node).
+Dylan posted an article on connecting OAuth with Node/Express backend, and a short video on Github Pull Requests.
