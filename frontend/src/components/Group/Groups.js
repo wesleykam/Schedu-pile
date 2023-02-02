@@ -1,20 +1,22 @@
 import { Col, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import GroupCard from './GroupCard';
+import { GroupData } from '../../test/groups.mock.data';
 
-const Groups = ({ groupData }) => {
-  const keys = Object.keys(groupData);
+const data = GroupData;
+
+const Groups = () => {
+  const keys = Object.keys(data);
 
   return (
     <Container>
-      <Row>
-        <Col>
-          <h1 style={{ fontSize: '10vh', margin: '30px 0 40px' }}>Groups</h1>
-        </Col>
-      </Row>
       <Row xs={2} className="g-4">
         {Array.from({ length: keys.length }).map((_, idx) => {
-          return <GroupCard key={idx} data={groupData[idx]} />;
+          return (
+            <Col>
+              <GroupCard key={idx} data={data[idx]} />
+            </Col>
+          );
         })}
       </Row>
     </Container>

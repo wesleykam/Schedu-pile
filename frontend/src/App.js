@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import AppNavbar from './components/Nav/AppNavbar';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import Home from './pages/Home';
 import CreateGroupPage from './pages/CreateGroupPage';
-import Groups from './components/Group/Groups.js';
-
+import GroupsPage from './pages/GroupsPage';
 
 function App() {
   const [user, setUser] = useState({ authenticated: false, user: null });
@@ -38,29 +42,22 @@ function App() {
           });
         });
     }
+    console.log(user);
     setLoading(false);
   }, [loading]);
 
   return (
     <div className="App">
       <AppNavbar user={user} />
-      {/* <Router>
-      <AppNavbar />
+      <Router>
         <Routes>
-          <Route path="/" exact component={Home} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/create" element={<CreateGroupPage />} />
+          <Route path="/groups" element={<GroupsPage />} />
+          {/* <Route path="/profile" element={<ProfilePage />} /> */}
         </Routes>
-      </Router> */}
-
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/create" element={<CreateGroupPage />} />
-        <Route path="/groups" element={<Groups />} />
-        {/* <Route path="/profile" element={<ProfilePage />} /> */}
-      </Routes>
-    </Router>
-
+      </Router>
     </div>
   );
 }
