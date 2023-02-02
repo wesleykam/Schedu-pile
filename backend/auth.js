@@ -4,14 +4,14 @@ const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const mongoose = require('mongoose');
 const User = require('./models/userModel');
 
-require('dotenv').config();
+const config = require('./config');
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      clientID: config.googleClientID,
+      clientSecret: config.googleClientSecret,
+      callbackURL: config. googleCallbackURL,
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
@@ -21,8 +21,8 @@ passport.use(
         refreshToken: refreshToken
       }
 
-      console.log(profile);
-
+      // store user data in mondoDB if user does not exist
+      // TO DO: if new refresh token is different from the one stored in DB, update it
       try {
         let user = await User.findOne({ googleId: profile.id });
         if (user) {
