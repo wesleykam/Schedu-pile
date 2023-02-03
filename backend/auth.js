@@ -17,6 +17,7 @@ passport.use(
     async function (request, accessToken, refreshToken, profile, done) {
       const newUser = {
         googleId: profile.id,
+        email: profile.email,
         name: profile.displayName,
         refreshToken: refreshToken
       }

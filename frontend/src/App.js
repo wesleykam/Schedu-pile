@@ -9,6 +9,7 @@ from 'react-router-dom';
 import Home from './pages/Home';
 import CreateGroupPage from './pages/CreateGroupPage';
 import GroupsPage from './pages/GroupsPage';
+import GroupPage from './pages/GroupPage';
 
 function App() {
   const [user, setUser] = useState({ authenticated: false, user: null });
@@ -55,6 +56,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={<CreateGroupPage />} />
           <Route path="/groups" element={<GroupsPage user={user} />} />
+          <Route path="/groups/:id" element={<GroupPage />} /> 
           {/* <Route path="/profile" element={<ProfilePage />} /> */}
         </Routes>
       </Router>

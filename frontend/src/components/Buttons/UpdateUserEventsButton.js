@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 
 export default function UpdateUserEventsButton({ user }) {
-    const updateEvents = async () => {
+    const updateEvents = () => {
         fetch('http://localhost:8000/api/user', {
             method: 'PATCH',
             body: JSON.stringify(user.user),

@@ -12,7 +12,6 @@ const CreateGroupPage = () => {
             </div>
             <CreateGroupForm></CreateGroupForm>
         </Container>
-
     );
 };
 
