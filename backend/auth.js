@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: config.googleClientID,
       clientSecret: config.googleClientSecret,
-      callbackURL: config. googleCallbackURL,
+      callbackURL: config.googleCallbackURL,
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
@@ -26,16 +26,20 @@ passport.use(
       try {
         let user = await User.findOne({ googleId: profile.id });
         if (user) {
+          if (refreshToken && user.refreshToken != refreshToken) {
+            const response = await User.findOneAndUpdate({ googleId: profile.id }, {
+              refreshToken: refreshToken
+            });
+          }
           return done(null, profile);
         } else {
           user = await User.create(newUser);
           return done(null, profile);
         }
-      }
-      catch (err) {
+      } catch (err) {
         console.error(err);
       }
-      
+
       return done(null, profile);
     }
   )
