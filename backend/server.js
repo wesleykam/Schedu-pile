@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const authRoutes = require('./routes/auth-routes');
+const groupRoutes = require('./routes/groups');
 const userRoutes = require('./routes/users');
 const keys = require('./config/keys');
 const config = require('./config');
@@ -29,6 +30,7 @@ app.use(
 
 app.use('/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/group', groupRoutes);
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
@@ -69,3 +71,5 @@ mongoose.connect(config.mongoURI)
     .catch((error) => {
         console.log(error)
     })
+
+
