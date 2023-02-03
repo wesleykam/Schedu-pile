@@ -1,5 +1,11 @@
 # Lab 04 Scrum Meeting
+Mentor: Avishek De
 
+Meeting time: Lab04
+
+Type of Meeting: Daily Scrum
+
+Team: Everyone Present
 ## Dylan Chung
 Did: Installation README
 Will do: Look at PRs, try to work on other issues, and study how our backend works some more
