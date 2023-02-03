@@ -10,9 +10,28 @@ import Home from './pages/Home';
 import CreateGroupPage from './pages/CreateGroupPage';
 import GroupsPage from './pages/GroupsPage';
 
+import { Button } from 'react-bootstrap';
+
 function App() {
   const [user, setUser] = useState({ authenticated: false, user: null });
   const [loading, setLoading] = useState(true);
+
+  const getEvents = async () => {
+    const response = fetch('http://localhost:8000/api/user', {
+      method: 'PATCH',
+      body: JSON.stringify(user.user),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      throw new Error('failed to fetch events');
+    }).then((responseJson) => {
+      console.log(responseJson);
+    })
+  }
 
   useEffect(() => {
     if (loading) {
@@ -58,6 +77,7 @@ function App() {
           {/* <Route path="/profile" element={<ProfilePage />} /> */}
         </Routes>
       </Router>
+      <Button onClick={getEvents}>Get Events</Button>
     </div>
   );
 }

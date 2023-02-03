@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const authRoutes = require('./routes/auth-routes');
+const userRoutes = require('./routes/users');
 const keys = require('./config/keys');
 const config = require('./config');
 
@@ -16,6 +17,7 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.json());
 
 app.use(
   cors({
@@ -26,6 +28,7 @@ app.use(
 );
 
 app.use('/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 const authCheck = (req, res, next) => {
   if (!req.user) {

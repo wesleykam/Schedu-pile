@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    events: {
+        type: Array,
+        default: []
+    },
     groupIds: {
         type: Array,
         default: []

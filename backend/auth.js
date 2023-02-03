@@ -26,10 +26,10 @@ passport.use(
       try {
         let user = await User.findOne({ googleId: profile.id });
         if (user) {
-          return done(null, user);
+          return done(null, profile);
         } else {
           user = await User.create(newUser);
-          return done(null, user);
+          return done(null, profile);
         }
       }
       catch (err) {

@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import AuthButton from '../Buttons/AuthButton';
 
 function AppNavbar({ user }) {
