@@ -3,6 +3,17 @@ const { google } = require('googleapis');
 const User = require('../models/userModel');
 const config = require('../config');
 
+async function getUserEvents(req, res) {
+    const googleId = req.params.id
+    
+    const user = await User.findOne({ googleId: googleId });
+
+    if (!user) {
+        return res.status(404).json({ error: 'No such user' })
+    }
+
+    res.status(200).json(user.events)
+}
 
 async function updateUserEvents(req, res) {
     let user = await User.findOne({ googleId: req.body.id });
@@ -38,8 +49,8 @@ async function updateUserEvents(req, res) {
         const start = event.start.dateTime || event.start.date;
         const end = event.end.dateTime;
 
-        if(end)
-            userEvents.push([event.summary, start.substring(0,start.lastIndexOf('-')), end.substring(0, end.lastIndexOf('-'))]);
+        if (end)
+            userEvents.push([event.summary, start.substring(0, start.lastIndexOf('-')), end.substring(0, end.lastIndexOf('-'))]);
     });
 
     console.log(userEvents);
@@ -54,5 +65,6 @@ async function updateUserEvents(req, res) {
 }
 
 module.exports = {
+    getUserEvents,
     updateUserEvents
 }

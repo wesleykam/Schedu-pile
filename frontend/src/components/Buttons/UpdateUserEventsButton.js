@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 
-export default function UpdateUserEventsButton({ user }) {
+export default function UpdateUserEventsButton({ user, handler }) {
+
     const updateEvents = () => {
         fetch('http://localhost:8000/api/user', {
             method: 'PATCH',
@@ -14,8 +15,9 @@ export default function UpdateUserEventsButton({ user }) {
             }
             throw new Error('failed to fetch events');
         }).then((responseJson) => {
-            console.log(responseJson);
-        })
+            handler()
+        });
+        
     }
 
     return (
