@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {DayPilot, DayPilotCalendar, DayPilotNavigator} from "@daypilot/daypilot-lite-react";
-import "./CalendarStyles.css";
 
 const styles = {
   wrap: {
