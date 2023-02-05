@@ -35,7 +35,6 @@ function App() {
             authenticated: true,
             user: responseJson.user,
           });
-          window.sessionStorage.setItem('user', JSON.stringify(responseJson.user));
         })
         .catch((error) => {
           setUser({
