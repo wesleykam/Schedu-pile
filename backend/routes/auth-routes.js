@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const passport = require('passport');
-const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
-const CLIENT_GROUPS_PAGE_URL = 'http://localhost:3000/groups'
+const config = require('../config');
+const CLIENT_HOME_PAGE_URL = config.nodeEnv === 'production' ? 'http://localhost:8000' : 'http://localhost:3000';
+const CLIENT_GROUPS_PAGE_URL = config.nodeEnv === 'production' ? 'http://localhost:8000/groups' : 'http://localhost:3000/groups';
 
 require('./../auth.js');
 
