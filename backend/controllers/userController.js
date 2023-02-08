@@ -64,7 +64,22 @@ async function updateUserEvents(req, res) {
     });
 }
 
+async function getUserGroups(req, res) {
+    const googleId = req.params.id
+    
+    const user = await User.findOne({ googleId: googleId });
+
+    console.log(user);
+
+    if (!user) {
+        res.status(404).json({ error: 'No such user' })
+    }
+
+    res.status(200).json(user.groupIds)
+}
+
 module.exports = {
     getUserEvents,
-    updateUserEvents
+    updateUserEvents,
+    getUserGroups
 }
