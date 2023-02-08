@@ -78,11 +78,45 @@ const updateGroup = async (req, res) => {
   res.status(200).json(group)
 }
 
+const updateGroupDeleteMember = async (req, res) => {
+  const { id } = req.params
+  const email = req.body.email
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'No such group' })
+  }
+
+  let user = await User.findOne({ email: email })
+
+  if (!user) {
+    return res.status(400).json({ error: 'No such user' })
+  }
+
+  //delete groupId from specific user
+  let index = user.groupIds.indexOf(id)
+  user.groupIds.splice(index, 1)
+  user.save()
+
+  let group = await Group.findOne({ _id: id })
+
+  if (!group) {
+    return res.status(400).json({ error: 'No such group' })
+  }
+
+  //delete email of that person from groupMembers
+  index = group.groupMembers.indexOf(email)
+  group.groupMembers.splice(index, 1)
+  group.save()
+
+  res.status(200).json(group)
+}
+
 module.exports = {
   getGroup,
   createGroup,
   deleteGroup,
-  updateGroup
+  updateGroup,
+  updateGroupDeleteMember
 }
 
 
