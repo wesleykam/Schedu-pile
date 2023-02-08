@@ -16,7 +16,7 @@ export default function DefaultLayout({ children, header, component }) {
             <h5
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                navigate('/');
+                navigate('/groups');
               }}
             >
               Go back

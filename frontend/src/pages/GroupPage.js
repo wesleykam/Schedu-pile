@@ -15,8 +15,7 @@ import { useNavigate } from 'react-router-dom';
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 let nextId = 0;
 
-export default function GroupDetails({ user }) {
-  console.log(user);
+export default function GroupPage() {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -30,33 +29,33 @@ export default function GroupDetails({ user }) {
     'http://localhost:8000/api/group' + path.substring(path.lastIndexOf('/'));
 
   useEffect(() => {
-    fetch('http://localhost:8000/check', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-      },
-    }).then((response) => {
-      if (response.status === 200) return response.json();
-      navigate('/');
-    });
-
-    fetch(url, {
-      method: 'GET',
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error('failed to fetch group details');
-      })
-
-      .then((responseJson) => {
-        console.log(responseJson.groupMembers);
-        setMembers(responseJson.groupMembers);
+    async function fetchData() {
+      const check = await fetch('http://localhost:8000/check', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Credentials': true,
+        },
       });
+      const checkUser = await check.json();
+      if (!checkUser.authenticated) navigate('/');
+      const groupResponse = await fetch(url, {
+        method: 'GET',
+      });
+      const groupResponseJson = await groupResponse.json();
+      let exists = false;
+      for (const member of groupResponseJson.groupMembers) {
+        if (member[0] === checkUser.user.id) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) navigate('/groups');
+      setMembers(groupResponseJson.groupMembers);
+    }
+    fetchData();
   }, [edit]);
 
   return (
@@ -95,7 +94,7 @@ export default function GroupDetails({ user }) {
                 >
                   <Row className="d-flex">
                     <Col className="me-3" style={{ width: '275px' }}>
-                      {member}{' '}
+                      {member[1]}{' '}
                     </Col>
                     <Col
                       className="d-flex justify-content-end"
