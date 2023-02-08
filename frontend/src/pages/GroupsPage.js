@@ -68,7 +68,7 @@ export default function GroupsPage({ user }) {
   return (
     <DefaultLayout header={'Groups'} component={<CreateGroupButton />}>
       <Groups groups={groups} />
-      <UpdateUserEventsButton user={user} handler={updateEvents} />
+      {/* <UpdateUserEventsButton user={user} handler={updateEvents} /> */}
       {events.map((event, i) => {
         return (
           <div>
