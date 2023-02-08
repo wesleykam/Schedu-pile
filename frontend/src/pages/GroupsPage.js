@@ -8,6 +8,8 @@ import DefaultLayout from '../layouts/DefaultLayout';
 export default function GroupsPage({ user }) {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   const updateEvents = () => {
     fetch(`http://localhost:8000/api/user/${user.user.id}`, {
@@ -28,23 +30,43 @@ export default function GroupsPage({ user }) {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8000/check', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-      },
-    }).then((response) => {
-      if (response.status === 200) return response.json();
-      navigate('/');
-    });
+    if (loading) {
+      fetch('http://localhost:8000/check', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Credentials': true,
+        },
+      }).then((response) => {
+        if (response.status === 200) return response.json();
+        navigate('/');
+      });
+      setTimeout(() => {
+        fetch(`http://localhost:8000/api/user/groupsinfo/${user.user.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((response) => {
+            setLoading(false);
+            if (response.status === 200) {
+              return response.json();
+            }
+            throw new Error('failed to fetch events');
+          })
+          .then((responseJson) => {
+            setGroups(responseJson);
+          });
+      }, 100);
+    }
   });
 
   return (
     <DefaultLayout header={'Groups'} component={<CreateGroupButton />}>
-      <Groups />
+      <Groups groups={groups} />
       <UpdateUserEventsButton user={user} handler={updateEvents} />
       {events.map((event, i) => {
         return (

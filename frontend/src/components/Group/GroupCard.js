@@ -1,34 +1,39 @@
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const GroupCard = ({ data }) => {
-  const numMembers = data.members.length;
+  const navigate = useNavigate();
+  const numMembers = data?.groupMembers.length;
   return (
     <Col className="d-flex justify-content-center align-items-center">
       <Card
         onClick={() => {
-          console.log('Should go to webpage for', data.name);
+          navigate(`/group/${data?._id}`);
         }}
         style={{ width: '100%', cursor: 'pointer' }}
       >
         <Card.Body>
-          <Row>
-            <Col>
-              <Card.Title>{data.name}</Card.Title>
-              <Card.Text>{data.description}</Card.Text>
-            </Col>
-            <Col>
-              <Card.Title>Team members:</Card.Title>
-              <Card.Text>
-                {data.members.map((member, idx) => {
-                  if (idx === numMembers - 1) {
-                    return member.name;
-                  } else {
-                    return member.name + ', ';
-                  }
-                })}
-              </Card.Text>
-            </Col>
-          </Row>
+          <Card.Title>{data?.name}</Card.Title>
+          <Card.Subtitle style={{ marginTop: '5px' }}>
+            Team members:
+          </Card.Subtitle>
+          <Card.Text>
+            {data?.groupMembers.map((member, idx) => {
+              if (idx === numMembers - 1) {
+                if (member?.name) {
+                  return member?.name;
+                } else {
+                  return member;
+                }
+              } else {
+                if (member?.name) {
+                  return member?.name + ', ';
+                } else {
+                  return member + ', ';
+                }
+              }
+            })}
+          </Card.Text>
         </Card.Body>
       </Card>
     </Col>

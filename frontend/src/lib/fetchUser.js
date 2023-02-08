@@ -1,4 +1,4 @@
-export const fetchUserGroups = () => {
+export const fetchUserGroups = (user) => {
   fetch(`http://localhost:8000/api/user/groups/${user.user.id}`, {
     method: 'GET',
     headers: {
@@ -13,5 +13,6 @@ export const fetchUserGroups = () => {
     })
     .then((responseJson) => {
       console.log(responseJson);
+      return responseJson;
     });
 };
