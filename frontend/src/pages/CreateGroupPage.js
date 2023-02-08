@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import CreateGroupForm from '../components/forms/CreateGroupForm';
+import DefaultLayout from "../layouts/DefaultLayout"
 
-const CreateGroupPage = ({ user, loading }) => {
+const CreateGroupPage = ({ user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,18 +23,10 @@ const CreateGroupPage = ({ user, loading }) => {
   });
 
   return (
-    <Container expand="xl" className="pt-4 flex-grow-1">
-      <div className="">
-        <h1
-          className="text-decoration-underline d-flex justify-content-center align-items-center"
-          style={{ height: '250px', fontSize: '75px' }}
-        >
-          Create a Group
-        </h1>
-      </div>
-      <CreateGroupForm></CreateGroupForm>
-    </Container>
-  );
+    <DefaultLayout header={'Create a Group'}>
+        <CreateGroupForm user={user}></CreateGroupForm>
+    </DefaultLayout>
+);
 };
 
 export default CreateGroupPage;

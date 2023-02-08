@@ -52,7 +52,7 @@ function App() {
           <Route path="/home" element={<HomePage user={user} />} />
           <Route
             path="/create"
-            element={<CreateGroupPage user={user} loading={loading} />}
+            element={<CreateGroupPage user={user} />}
           />
           <Route path="/groups" element={<GroupsPage user={user} />} />
           <Route path="/groups/:id" element={<GroupPage user={user} />} />

@@ -1,38 +1,49 @@
 import { Button, Form } from "react-bootstrap";
-// import { useForm } from "react-hook-form";
+import { useState } from 'react';
 
-function CreateGroupForm( {submitAction} ) {
+function CreateGroupForm({user}) {
 
-    // const {
-    //   handleSubmit,
-    // } = useForm(
-    // );
+    const [name, setName] = useState('')
+
+    const createGroup = (e) => {
+      e.preventDefault()
+      const body = { groupName: name, email: user.user.email, username: user.user.displayName }
+
+      fetch('http://localhost:8000/api/group', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      }).then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error('failed to create group');
+      }).then((responseJson) => {
+        console.log(responseJson);
+      })
+    }
+
 
     return (
-      // <Form onSubmit={handleSubmit(submitAction)}>
-      <div >
-        <Form style={{fontSize: "25px"}} className = "d-flex justify-content-center align-items-center">
-          <fieldset>
-            <label>
-              <p>Name</p>
-              <input name="name" style={{width:"500px"}}/>
-            </label>
-          </fieldset>
+        <Form onSubmit={createGroup} style={{fontSize: "30px", marginLeft: "600px", marginTop: "25px"}}>
+          <label>Enter Group Name</label>
+          <div>
+            <input
+                style = {{marginTop: "15px", fontSize:"25px"}}
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                required
+            />
+          </div>
+          <div>
+            <Button style={{marginTop: "25px", fontSize: "25px"}} type="submit">Submit</Button>
+          </div>
         </Form>
-        <Form style={{fontSize: "25px", marginBottom: "30px", marginTop: "30px"}} className = "d-flex justify-content-center align-items-center">
-          <fieldset>
-            <label>
-              <p>Group Description</p>
-              <input name="name" style={{width:"500px"}}/>
-            </label>
-          </fieldset>
-        </Form>
-        <Form className = "text-decoration-underline d-flex justify-content-center align-items-center">
-          <Button type="submit" data-testid="CreateGroupForm-Create-Button" style={{fontSize: "30px"}}>Create!</Button>
-        </Form>
-      </div>
-    );
+      );
   }
   
-  export default CreateGroupForm;
-  
+export default CreateGroupForm;
+
