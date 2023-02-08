@@ -18,7 +18,7 @@ function AppNavbar({ user }) {
             </Nav>
           ) : null}
           <Nav className="ml-auto">
-            <Nav.Link href="/" style={{ marginRight: '10px' }}>
+            <Nav.Link href={user.authenticated ? "/home" : "/"} style={{ marginRight: '10px' }}>
               Home
             </Nav.Link>
             <AuthButton user={user} />
