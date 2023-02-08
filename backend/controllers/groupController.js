@@ -62,6 +62,7 @@ const updateGroup = async (req, res) => {
   }
 
   user.groupIds.push(id)
+  user.groupIds = [...new Set(user.groupIds)]
   user.save()
 
   let group = await Group.findOne({ _id: id })
@@ -71,6 +72,7 @@ const updateGroup = async (req, res) => {
   }
 
   group.groupMembers.push(email)
+  group.groupMembers = [...new Set(group.groupMembers)]
   group.save()
 
   res.status(200).json(group)
