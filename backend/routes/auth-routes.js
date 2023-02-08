@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
+const CLIENT_GROUPS_PAGE_URL = 'http://localhost:3000/groups'
 
 require('./../auth.js');
 
@@ -30,7 +31,7 @@ router.get(
 
 router.get('/google/success', isLoggedIn, (req, res) => {
   if (req.user) {
-    res.redirect(CLIENT_HOME_PAGE_URL);
+    res.redirect(CLIENT_GROUPS_PAGE_URL);
   }
 });
 
