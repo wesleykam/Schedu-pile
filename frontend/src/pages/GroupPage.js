@@ -87,6 +87,7 @@ export default function GroupDetails({ user }) {
       })
       .then((responseJson) => {
         console.log(responseJson);
+        window.location.reload(false);
       });
   };
 
