@@ -6,7 +6,8 @@ function AppNavbar({ user }) {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Calendar App</Navbar.Brand>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGonmi6K_5Gz0_ixaA82ra4rjB7D8_kwVDYQ&usqp=CAU" alt="logo" width={40} height={40} object position="right 0" />
+          <Navbar.Brand href="/">Schedu-pile</Navbar.Brand>
           {user.authenticated ? (
             <Nav className="me-auto">
               <Nav.Link href="/create" style={{ marginTop: '3px' }}>
