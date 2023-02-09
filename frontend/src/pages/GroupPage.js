@@ -82,14 +82,14 @@ export default function GroupDetails({ user }) {
       }
     >
       <Row>
-        <Col xs={9}>
+        <Col xs={8}>
           <EventCalendar events={events} groups={true} />
         </Col>
         <Col>
           <Container fluid>
             <Row className="mb-3 d-flex justify-content-center align-items-center">
               <Col
-                xs={3}
+                xs={4}
                 className="d-flex justify-content-center align-items-center mx-auto"
               >
                 <ListGroup>

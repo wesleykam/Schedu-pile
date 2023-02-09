@@ -82,7 +82,7 @@ class EventCalendar extends Component {
           <DayPilotNavigator
             selectMode={'week'}
             showMonths={2}
-            skipMonths={3}
+            skipMonths={2}
             onTimeRangeSelected={(args) => {
               this.calendar.update({
                 startDate: args.day,
