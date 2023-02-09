@@ -13,7 +13,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../Constants';
 import EventCalendar from '../components/calender/EventCalendar';
-import { fetchGroupEvents } from '../lib/fetchEvents';
+
+import { fetchGroupEvents, updateGroupEvents } from '../lib/fetchEvents';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -23,8 +24,11 @@ export default function GroupDetails({ user }) {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const [events, setEvents] = useState(null);
+  const [updated, setUpdated] = useState(false);
+  const [fetched, setFetched] = useState(false);
   const [email, setDelete] = useState('');
   const [del_user, setDelUser] = useState('');
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,12 +64,21 @@ export default function GroupDetails({ user }) {
       if (!exists) navigate('/groups');
       setMembers(groupResponseJson.groupMembers);
     }
+    async function updateEvents() {
+      const groupEvents = await updateGroupEvents(groupId);
+      setEvents(groupEvents);
+      setUpdated(true);
+    }
     async function fetchEvents() {
       const groupEvents = await fetchGroupEvents(groupId);
       setEvents(groupEvents);
+      setTimeout(() => {
+        setFetched(true);
+      });
     }
     fetchData();
-    fetchEvents();
+    if (!fetched) fetchEvents();
+    if (!updated) updateEvents();
   }, [events]);
 
   const handleDelete = () => {

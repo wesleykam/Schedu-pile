@@ -20,3 +20,32 @@ export async function fetchGroupEvents(groupId) {
 
   return events;
 }
+
+export async function updateGroupEvents(groupId) {
+  const response = await fetch(config.url + `/api/group/${groupId}`);
+  const { groupMembers } = await response.json();
+  let eventList = [];
+  for (const member of groupMembers) {
+    const userResponse = await fetch(config.url + '/api/user', {
+      method: 'PATCH',
+      body: JSON.stringify({ id: member[0] }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { events } = await userResponse.json();
+    const userEvents = events.map((event, idx) => {
+      return {
+        id: idx,
+        text: member[1] + "'s Event",
+        start: event[1],
+        end: event[2],
+      };
+    });
+    eventList = [...eventList, ...userEvents];
+  }
+  console.log(eventList);
+
+  return eventList;
+}
+

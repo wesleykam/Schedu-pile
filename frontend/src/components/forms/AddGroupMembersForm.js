@@ -8,8 +8,7 @@ const AddGroupMembersForm = () => {
     e.preventDefault();
 
     const path = window.location.pathname;
-    let url =
-      config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
+    let url = config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
     const memberEmails = { email };
 
     fetch(url, {
@@ -27,6 +26,7 @@ const AddGroupMembersForm = () => {
       })
       .then((responseJson) => {
         console.log(responseJson);
+        window.location.reload(false);
       });
   };
 
