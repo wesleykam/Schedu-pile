@@ -6,10 +6,6 @@ import {
 import { config } from '../../Constants';
 
 const styles = {
-  wrap: {
-    marginTop: '2vh',
-    display: 'flex',
-  },
   left: {
     marginRight: '10px',
   },
@@ -33,7 +29,7 @@ class EventCalendar extends Component {
   }
 
   getUpdatedEvents = () => {
-    fetch(config.url+'/api/user', {
+    fetch(config.url + '/api/user', {
       method: 'PATCH',
       body: JSON.stringify(this.props.user.user),
       headers: {
@@ -47,7 +43,6 @@ class EventCalendar extends Component {
         throw new Error('failed to fetch events');
       })
       .then((responseJson) => {
-        console.log(responseJson);
         const events = responseJson?.events.map((event, idx) => {
           return {
             id: idx,
@@ -56,14 +51,19 @@ class EventCalendar extends Component {
             end: event[2],
           };
         });
+        console.log(events);
         this.calendar.update({ events });
       });
   };
 
   componentDidMount() {
     setTimeout(() => {
-      if (this.props.user.authenticated) {
+      if (this.props.user?.authenticated) {
         this.getUpdatedEvents();
+      }
+      if (this.props.groups) {
+        const events = this.props.events;
+        this.calendar.update({ events });
       }
     }, 500);
   }
@@ -71,7 +71,13 @@ class EventCalendar extends Component {
   render() {
     const { ...config } = this.state;
     return (
-      <div style={styles.wrap}>
+      <div
+        style={{
+          display: 'flex',
+          marginTop: this.props.groups ? null : '2vh',
+          marginLeft: !this.props.groups ? null : '2vw',
+        }}
+      >
         <div style={styles.left}>
           <DayPilotNavigator
             selectMode={'week'}
