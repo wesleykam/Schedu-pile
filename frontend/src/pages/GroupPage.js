@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../Constants';
 import EventCalendar from '../components/calender/EventCalendar';
+
 import { fetchGroupEvents, updateGroupEvents } from '../lib/fetchEvents';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
