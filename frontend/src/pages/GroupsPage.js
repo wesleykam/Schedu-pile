@@ -4,6 +4,7 @@ import CreateGroupButton from '../components/Buttons/CreateGroupButton';
 import UpdateUserEventsButton from '../components/Buttons/UpdateUserEventsButton';
 import Groups from '../components/Group/Groups';
 import DefaultLayout from '../layouts/DefaultLayout';
+import { config } from '../Constants';
 
 export default function GroupsPage({ user }) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function GroupsPage({ user }) {
   const [loading, setLoading] = useState([]);
 
   const updateEvents = () => {
-    fetch(`http://localhost:8000/api/user/${user.user.id}`, {
+    fetch(config.url+`/api/user/${user.user.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -31,7 +32,7 @@ export default function GroupsPage({ user }) {
 
   useEffect(() => {
     if (loading) {
-      fetch('http://localhost:8000/check', {
+      fetch(config.url+'/check', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -44,7 +45,7 @@ export default function GroupsPage({ user }) {
         navigate('/');
       });
       setTimeout(() => {
-        fetch(`http://localhost:8000/api/user/groupsinfo/${user.user.id}`, {
+        fetch(config.url+`/api/user/groupsinfo/${user.user.id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

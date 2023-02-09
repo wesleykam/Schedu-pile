@@ -11,6 +11,7 @@ import {
 import AddGroupMembersForm from '../components/forms/AddGroupMembersForm';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../Constants';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 let nextId = 0;
@@ -26,11 +27,11 @@ export default function GroupPage() {
   const handleShow = () => setShow(true);
   const path = window.location.pathname;
   let url =
-    'http://localhost:8000/api/group' + path.substring(path.lastIndexOf('/'));
+    config.url+'/api/group' + path.substring(path.lastIndexOf('/'));
 
   useEffect(() => {
     async function fetchData() {
-      const check = await fetch('http://localhost:8000/check', {
+      const check = await fetch(config.url+'/check', {
         method: 'GET',
         credentials: 'include',
         headers: {

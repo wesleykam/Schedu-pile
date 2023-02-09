@@ -1,5 +1,6 @@
+import { config } from "../../Constants";
 export const fetchUserGroups = (user) => {
-  fetch(`http://localhost:8000/api/user/groups/${user.user.id}`, {
+  fetch(config.url+`/api/user/groups/${user.user.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

@@ -3,12 +3,13 @@ import { Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import CreateGroupForm from '../components/forms/CreateGroupForm';
 import DefaultLayout from "../layouts/DefaultLayout"
+import { config } from '../Constants';
 
 const CreateGroupPage = ({ user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:8000/check', {
+    fetch(config.url+'/check', {
       method: 'GET',
       credentials: 'include',
       headers: {

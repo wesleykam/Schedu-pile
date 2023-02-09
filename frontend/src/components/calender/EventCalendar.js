@@ -3,6 +3,7 @@ import {
   DayPilotCalendar,
   DayPilotNavigator,
 } from '@daypilot/daypilot-lite-react';
+import { config } from '../../Constants';
 
 const styles = {
   wrap: {
@@ -32,7 +33,7 @@ class EventCalendar extends Component {
   }
 
   getUpdatedEvents = () => {
-    fetch('http://localhost:8000/api/user', {
+    fetch(config.url+'/api/user', {
       method: 'PATCH',
       body: JSON.stringify(this.props.user.user),
       headers: {
