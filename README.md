@@ -58,7 +58,7 @@ Backend
 1. git clone this repository (if you have ssh setup: git clone git@github.com:ucsb-cs148-w23/project-t10-weeklyschedulecompiler.git)
 2. cd project-t10-weeklyschedulecompiler
 3. npm install -C ./frontend && npm install -C ./backend
-4. touch ./backend/.env or create .env file some other way and set environment variables (PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL, MONGO_URI)
+4. touch ./backend/.env or create .env file some other way and set environment variables (PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL, MONGO_URI, NODE_ENV)
 
 To run locally: 
 1. Create two total terminals at root directory
