@@ -74,7 +74,7 @@ export default function GroupDetails({ user }) {
       setEvents(groupEvents);
       setTimeout(() => {
         setFetched(true);
-      }, 500);
+      }, 2000);
     }
     fetchData();
     if (!fetched) fetchEvents();
