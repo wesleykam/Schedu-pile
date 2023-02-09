@@ -49,6 +49,10 @@ async function updateUserEvents(req, res) {
 
     const start = event.start.dateTime || event.start.date;
     const end = event.end.dateTime;
+    
+    if (!event.start.dateTime.includes('T')) {
+      return;
+    }
 
     if (end)
       userEvents.push([
