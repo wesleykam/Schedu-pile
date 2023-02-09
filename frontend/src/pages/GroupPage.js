@@ -16,21 +16,22 @@ import EventCalendar from '../components/calender/EventCalendar';
 import { fetchGroupEvents } from '../lib/fetchEvents';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
-let nextId = 0;
 
 export default function GroupDetails({ user }) {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const [del_email, setDelete] = useState('');
   const [events, setEvents] = useState(null);
+  const [email, setDelete] = useState('');
+  const [del_user, setDelUser] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const path = window.location.pathname;
   let groupId = path.substring(path.lastIndexOf('/'));
   let url = config.url + '/api/group' + groupId;
+  let deleteUrl = config.url + '/api/group/members' + groupId;
 
   useEffect(() => {
     async function fetchData() {
@@ -66,6 +67,28 @@ export default function GroupDetails({ user }) {
     fetchData();
     fetchEvents();
   }, [events]);
+
+  const handleDelete = () => {
+    const deleteEmail = { email };
+
+    fetch(deleteUrl, {
+      method: 'PATCH',
+      credentials: 'include',
+      body: JSON.stringify(deleteEmail),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error('Failed to delete user');
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+      });
+  };
 
   return (
     <DefaultLayout
@@ -110,7 +133,8 @@ export default function GroupDetails({ user }) {
                             <CloseButton
                               onClick={() => {
                                 handleShow();
-                                setDelete(member);
+                                setDelete(member[2]);
+                                setDelUser(member[1]);
                               }}
                             ></CloseButton>
                           )}
@@ -131,18 +155,18 @@ export default function GroupDetails({ user }) {
           </Container>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Remove Email</Modal.Title>
+              <Modal.Title>Remove {del_user}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want to remove user</Modal.Body>
+            <Modal.Body>Are you sure you want to remove {del_user}?</Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
               <Button
-                variant="primary"
+                variant="danger"
                 onClick={() => {
                   handleClose();
-                  setMembers(members.filter((m) => m !== del_email));
+                  handleDelete();
                 }}
               >
                 Delete user

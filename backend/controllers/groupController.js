@@ -120,7 +120,7 @@ const updateGroupDeleteMember = async (req, res) => {
 
   //delete email of that person from groupMembers
   for (let i = 0; i < group.groupMembers.length; i++) {
-    if (group.groupMembers[i][1] === email) {
+    if (group.groupMembers[i][2] === email) {
       group.groupMembers.splice(i, 1);
     }
   }
