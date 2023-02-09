@@ -65,7 +65,7 @@ export default function GroupDetails({ user }) {
     }
     fetchData();
     fetchEvents();
-  }, [edit]);
+  }, [events]);
 
   return (
     <DefaultLayout
