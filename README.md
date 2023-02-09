@@ -78,7 +78,7 @@ To run locally:
 
 ## Known Problems
 
- - No known problems right now
+ - Currently, the group calendar page has trouble loading all members' calendar events occasionally.
 
 ## Contributing
 
