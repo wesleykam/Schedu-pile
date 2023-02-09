@@ -1,9 +1,10 @@
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { config } from '../../Constants';
 
 function CreateGroupForm({user}) {
-
+    const navigate = useNavigate();
     const [name, setName] = useState('')
 
     const createGroup = (e) => {
@@ -22,7 +23,7 @@ function CreateGroupForm({user}) {
         }
         throw new Error('failed to create group');
       }).then((responseJson) => {
-        console.log(responseJson);
+        navigate('/groups/'+responseJson._id)
       })
     }
 
