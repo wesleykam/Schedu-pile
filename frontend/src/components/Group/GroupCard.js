@@ -8,7 +8,7 @@ const GroupCard = ({ data }) => {
     <Col className="d-flex justify-content-center align-items-center">
       <Card
         onClick={() => {
-          navigate(`/group/${data?._id}`);
+          navigate(`/groups/${data?._id}`);
         }}
         style={{ width: '100%', cursor: 'pointer' }}
       >
