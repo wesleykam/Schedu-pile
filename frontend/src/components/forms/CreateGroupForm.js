@@ -1,5 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import { useState } from 'react';
+import { config } from '../../Constants';
 
 function CreateGroupForm({user}) {
 
@@ -9,7 +10,7 @@ function CreateGroupForm({user}) {
       e.preventDefault()
       const body = { groupName: name, email: user.user.email, username: user.user.displayName, googleId: user.user.id }
 
-      fetch('http://localhost:8000/api/group', {
+      fetch(config.url+'/api/group', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

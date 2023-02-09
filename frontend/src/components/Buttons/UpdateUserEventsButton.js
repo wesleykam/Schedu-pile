@@ -1,9 +1,10 @@
 import { Button } from 'react-bootstrap';
+import { config } from '../../Constants';
 
 export default function UpdateUserEventsButton({ user, handler }) {
 
     const updateEvents = () => {
-        fetch('http://localhost:8000/api/user', {
+        fetch(config.url + '/api/user', {
             method: 'PATCH',
             body: JSON.stringify(user.user),
             headers: {

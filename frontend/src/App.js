@@ -6,6 +6,7 @@ import GroupsPage from './pages/GroupsPage';
 import GroupPage from './pages/GroupPage';
 import HomePage from './pages/HomePage';
 import Main from './pages/Main';
+import { config } from './Constants';
 
 function App() {
   const [user, setUser] = useState({ authenticated: false, user: null });
@@ -13,7 +14,7 @@ function App() {
 
   useEffect(() => {
     if (loading) {
-      fetch('http://localhost:8000/check', {
+      fetch(config.url+'/check', {
         method: 'GET',
         credentials: 'include',
         headers: {

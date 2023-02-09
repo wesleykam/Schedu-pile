@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { config } from '../../Constants';
 
 const AddGroupMembersForm = () => {
   const [email, setEmail] = useState('');
@@ -8,7 +9,7 @@ const AddGroupMembersForm = () => {
 
     const path = window.location.pathname;
     let url =
-      'http://localhost:8000/api/group' + path.substring(path.lastIndexOf('/'));
+      config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
     const memberEmails = { email };
 
     fetch(url, {
