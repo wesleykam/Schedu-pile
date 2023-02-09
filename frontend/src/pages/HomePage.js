@@ -8,7 +8,7 @@ export default function HomePage({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(config.url+'/check', {
+    fetch(config.url + '/check', {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -24,7 +24,7 @@ export default function HomePage({ user }) {
 
   return (
     <Container>
-      <EventCalendar user={user} />
+      <EventCalendar groups={false} user={user} />
     </Container>
   );
 }
