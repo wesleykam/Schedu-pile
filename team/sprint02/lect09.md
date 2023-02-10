@@ -4,7 +4,7 @@ Meeting time: Lect09
 
 Type of Meeting: Daily Scrum
 
-Team: Everyone Present :)
+Team: Everyone Present
 
 Scribed Discussion
 
