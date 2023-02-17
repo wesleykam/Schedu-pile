@@ -6,3 +6,4 @@ To run our frontend tests, run `cd frontend` and `npm test`.
 
 ## Current Completed Unit Tests:
 - CreateGroupButton.js
+- AuthButton.js
