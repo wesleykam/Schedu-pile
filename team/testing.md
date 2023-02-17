@@ -3,3 +3,6 @@ Unit tests for our frontend are located in ./frontend/__test__. The subdirectori
 src/components/Buttons/CreateGroupButton.js, navigate to __test__/components/Buttons/CreateGroupButton.test.js
 
 To run our frontend tests, run `cd frontend` and `npm test`.
+
+## Current Completed Unit Tests:
+- CreateGroupButton.js
