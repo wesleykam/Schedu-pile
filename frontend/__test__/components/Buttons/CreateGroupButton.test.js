@@ -13,22 +13,27 @@ beforeEach(() => {
 });
 
 test('Button renders', () => {
+  //render the CreateGroupButton
   render(
     <BrowserRouter>
       <CreateGroupButton />
     </BrowserRouter>
   );
+  //Check if the button is rendered as expected
   expect(screen.getByText('+ Create Group')).toBeInTheDocument();
 });
 
-test('when clicked, navigate', async () => {
+test('when clicked, navigate to /create', async () => {
+  //render the CreateGroupButton
   render(
     <BrowserRouter>
       <CreateGroupButton />
     </BrowserRouter>
   );
 
+  //find the CreateGroupButton and stimulate a user click
   await userEvent.click(screen.getByText('+ Create Group'));
 
+  //Check if the button click correctly navigates the user to /create
   expect(navigate).toHaveBeenCalledWith('/create');
 });

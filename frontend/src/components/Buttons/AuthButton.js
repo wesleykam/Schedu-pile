@@ -1,8 +1,8 @@
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import { config } from '../../Constants';
 
 export default function AuthButton({ user }) {
-
   return (
     <>
       {user.authenticated ? (
