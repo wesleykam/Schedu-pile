@@ -24,7 +24,7 @@ test('If user logged in, render log out button', () => {
   expect(screen.getByText('Log out')).toBeInTheDocument();
 });
 
-test('If user logged out, button directs to /auth/google', () => {
+test('If user logged out, render sign in button', () => {
   const user = { authenticated: false };
   render(
     <BrowserRouter>
@@ -35,7 +35,7 @@ test('If user logged out, button directs to /auth/google', () => {
   expect(screen.getByText('Sign in')).toBeInTheDocument();
 });
 
-test('If user logged in, button directs to /auth/logout', () => {
+test('If user not logged in, button directs to /auth/google', () => {
   const user = { authenticated: false };
   render(
     <BrowserRouter>
@@ -49,7 +49,7 @@ test('If user logged in, button directs to /auth/logout', () => {
   );
 });
 
-test('If user not logged in, render sign in button', () => {
+test('If user logged in, button directs to /auth/logout', () => {
   const user = { authenticated: true };
   render(
     <BrowserRouter>
