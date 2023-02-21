@@ -5,10 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import AuthButton from '../../../src/components/Buttons/AuthButton';
 import { config } from '../../../src/Constants';
 
-beforeEach(() => {
-  jest.spyOn(router, 'useNavigate').mockImplementation(() => navigate);
-});
-
 describe('AuthButton', () => {
   test('If user logged in, render log out button', () => {
     const user = { authenticated: true };
