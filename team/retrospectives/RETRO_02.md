@@ -43,3 +43,7 @@ the work process by telling each other how we implemented or how we want each fe
 discussion start up was having the other members of the team participate and share their thoughts. Having the leader share their opinion may influence team members into
 being afraid of going against their opinion. Another thing is that while you may not be able to fully share your thoughts, it's still helpful to provide questions to 
 help them discuss and to help them think.
+
+# Retro Experiment Outcomes
+
+* So one experiment that we wanted to try was to use our lecture time / group meeting times to focus more on planning out the product and discussing the direction our group wanted to take for both the week and the product in general. We didn't really have many opportunities to try this out, as we did the retro on Tuesday and Thursday's lecture didn't leave much time, but the meeting that we had after the retro during Tuesday's lecture was very helpful in helping us get on the same page. Firstly, we were very ambitious and wanted to incorporate a lot of features, but having the meeting helped us re-focus and prioritize certain issues, specifically those suggested in the feedback from the MVPs. So we were able to narrow down to a couple important issues/features/user stories that we really want to focus on and refine. Secondly, spending that time meeting was useful in making sure that everyone 
