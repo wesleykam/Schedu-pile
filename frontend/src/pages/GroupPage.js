@@ -172,7 +172,7 @@ export default function GroupDetails({ user }) {
             </Row>
             <Row>
               <Col></Col>
-              <Col className="d-flex justify-content-center align-items-center mx-auto">
+              <Col style={{paddingTop: '5%'}} className="d-flex justify-content-center align-items-center mx-auto">
                 {edit && <DeleteGroupButton groupId={groupId}></DeleteGroupButton>}
               </Col>
               <Col></Col>
