@@ -19,6 +19,9 @@ function AppNavbar({ user }) {
             </Nav>
           ) : null}
           <Nav className="ml-auto">
+            <Nav.Link href="/about" style={{ marginRight: '10px' }}>
+              About
+            </Nav.Link>
             <Nav.Link href={user.authenticated ? "/home" : "/"} style={{ marginRight: '10px' }}>
               Home
             </Nav.Link>
