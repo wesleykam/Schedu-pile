@@ -40,6 +40,7 @@ const createGroup = async (req, res) => {
       name: groupName,
       groupMembers: [[googleId, username, email]],
       calendarEvents: [],
+      admin: googleId,
     });
 
     user.groupIds.push(group._id);

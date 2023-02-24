@@ -13,6 +13,10 @@ const groupSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  admin: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Group', groupSchema);
