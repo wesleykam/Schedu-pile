@@ -1,6 +1,7 @@
 import { Col, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import GroupCard from './GroupCard';
+import React from 'react';
 
 const Groups = ({ groups }) => {
   return (

@@ -1,6 +1,7 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../style/DefaultLayout.css';
+import React from 'react';
 
 const start = 'd-flex justify-content-start align-items-center';
 const center = 'd-flex justify-content-center align-items-center';

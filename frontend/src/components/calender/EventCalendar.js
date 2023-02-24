@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import React, { Component } from 'react';
 import {
   DayPilotCalendar,

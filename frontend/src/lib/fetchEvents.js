@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { config } from '../Constants';
 
 export async function fetchGroupEvents(groupId) {

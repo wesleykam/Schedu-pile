@@ -1,5 +1,6 @@
 import { Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 const GroupCard = ({ data }) => {
   const navigate = useNavigate();
