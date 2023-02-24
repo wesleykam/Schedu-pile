@@ -114,21 +114,20 @@ export default function GroupDetails({ user }) {
     <DefaultLayout
       className={CLASSNAME}
       header={`${name}`}
-      component={
-        <Button
-          onClick={() => {
-            setEdit((prevEdit) => !prevEdit);
-          }}
-        >
-          Edit
-        </Button>
-      }
     >
       <Row>
         <Col xs={8}>
           <EventCalendar events={events} groups={true} />
         </Col>
+        
         <Col>
+          <Button className="d-flex justify-content-center align-items-center mx-auto" style={{marginBottom: "5%"}}
+            onClick={() => {
+              setEdit((prevEdit) => !prevEdit);
+            }}
+            >
+            Edit
+          </Button>
           <Container fluid>
             <Row className="mb-3 d-flex justify-content-center align-items-center">
               <Col
@@ -166,6 +165,7 @@ export default function GroupDetails({ user }) {
               </Col>
             </Row>
             <Row>
+              
               <Col></Col>
               <Col className="d-flex justify-content-center align-items-center mx-auto">
                 {edit && <AddGroupMembersForm></AddGroupMembersForm>}
