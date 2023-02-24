@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import AddGroupMembersForm from '../components/forms/AddGroupMembersForm';
 import CreateEventForm from '../components/forms/CreateEventForm';
+import DeleteGroupButton from '../components/Buttons/DeleteGroupButton';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../Constants';
@@ -66,6 +67,7 @@ export default function GroupDetails({ user }) {
       if (!exists) navigate('/groups');
       setMembers(groupResponseJson.groupMembers);
     }
+    
     async function updateEvents() {
       const groupEvents = await updateGroupEvents(groupId);
       setEvents(groupEvents);
@@ -165,6 +167,13 @@ export default function GroupDetails({ user }) {
               <Col></Col>
               <Col className="d-flex justify-content-center align-items-center mx-auto">
                 {edit && <AddGroupMembersForm></AddGroupMembersForm>}
+              </Col>
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col></Col>
+              <Col style={{paddingTop: '5%'}} className="d-flex justify-content-center align-items-center mx-auto">
+                {edit && <DeleteGroupButton groupId={groupId}></DeleteGroupButton>}
               </Col>
               <Col></Col>
             </Row>
