@@ -9,6 +9,7 @@ import {
   Col,
 } from 'react-bootstrap';
 import AddGroupMembersForm from '../components/forms/AddGroupMembersForm';
+import CreateEventForm from '../components/forms/CreateEventForm';
 import DeleteGroupButton from '../components/Buttons/DeleteGroupButton';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +24,7 @@ export default function GroupDetails({ user }) {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [add, setAdd] = useState(false);
   const [show, setShow] = useState(false);
   const [events, setEvents] = useState(null);
   const [updated, setUpdated] = useState(false);
@@ -110,14 +112,14 @@ export default function GroupDetails({ user }) {
     <DefaultLayout
       className={CLASSNAME}
       header={'Group Details'}
-      component={
-        <Button
-          onClick={() => {
-            setEdit((prevEdit) => !prevEdit);
-          }}
-        >
-          Edit
-        </Button>
+      component={   
+        <Button 
+        onClick={() => {
+          setEdit((prevEdit) => !prevEdit);
+        }}
+      >
+        Edit
+      </Button>
       }
     >
       <Row>
@@ -143,7 +145,7 @@ export default function GroupDetails({ user }) {
                         </Col>
                         <Col
                           className="d-flex justify-content-end"
-                          style={{ witdh: '100px' }}
+                          style={{ width: '100px' }}
                         >
                           {edit && (
                             <CloseButton
@@ -196,8 +198,19 @@ export default function GroupDetails({ user }) {
               </Button>
             </Modal.Footer>
           </Modal>
+          <Col style={{paddingTop: '5%'}}> 
+            <Button className="d-flex justify-content-center align-items-center mx-auto" onClick={() => {
+              setAdd((prevAdd) => !prevAdd); 
+            }}
+            // when clicking this button, shows or closes form to create new event
+            >
+              Add Event
+            </Button>
+            <Col style={{paddingTop: '3%'}} className="d-flex justify-content-center align-items-center mx-auto">{add && <CreateEventForm></CreateEventForm>}</Col>
+          </Col>
         </Col>
       </Row>
-    </DefaultLayout>
+    </DefaultLayout> 
+
   );
 }
