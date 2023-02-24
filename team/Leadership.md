@@ -5,7 +5,7 @@
 | Tues 2/21  | Cyril Wang | Will lead the second retro        |
 
 
-Leadership roles:
+Past Leadership roles:
 
 Wesley Kam - First retro leader
 
