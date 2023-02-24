@@ -5,6 +5,9 @@ const {
   deleteGroup,
   updateGroup,
   updateGroupDeleteMember,
+  getGroupEvents,
+  updateGroupEvents,
+  updateGroupMemberEvents,
 } = require('../controllers/groupController');
 // GET a single group
 router.get('/:id', getGroup);
@@ -20,5 +23,14 @@ router.patch('/:id', updateGroup);
 
 //UPDATE group members
 router.patch('/members/:id', updateGroupDeleteMember);
+
+//GET a group's events
+router.get('/events/:id', getGroupEvents);
+
+//UPDATE a group's events
+router.patch('/events/:id', updateGroupEvents);
+
+//UPDATE a specific group member's events
+router.patch('/events/member/:id', updateGroupMemberEvents);
 
 module.exports = router;

@@ -9,23 +9,18 @@ import {
   Col,
 } from 'react-bootstrap';
 import AddGroupMembersForm from '../components/forms/AddGroupMembersForm';
-import CreateEventForm from '../components/forms/CreateEventForm';
-import DeleteGroupButton from '../components/Buttons/DeleteGroupButton';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../Constants';
 import EventCalendar from '../components/calender/EventCalendar';
-
-import { fetchGroupEvents, updateGroupEvents } from '../lib/fetchEvents';
+import { updateGroupMemberEvents } from '../lib/fetchEvents';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
 export default function GroupDetails({ user }) {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
   const [members, setMembers] = useState([]);
   const [edit, setEdit] = useState(false);
-  const [add, setAdd] = useState(false);
   const [show, setShow] = useState(false);
   const [events, setEvents] = useState(null);
   const [updated, setUpdated] = useState(false);
@@ -33,13 +28,13 @@ export default function GroupDetails({ user }) {
   const [email, setDelete] = useState('');
   const [del_user, setDelUser] = useState('');
 
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const path = window.location.pathname;
   let groupId = path.substring(path.lastIndexOf('/'));
   let url = config.url + '/api/group' + groupId;
   let deleteUrl = config.url + '/api/group/members' + groupId;
+  let eventsUrl = config.url + '/api/group/events' + groupId;
 
   useEffect(() => {
     async function fetchData() {
@@ -66,25 +61,31 @@ export default function GroupDetails({ user }) {
         }
       }
       if (!exists) navigate('/groups');
-      setName(groupResponseJson.name);
       setMembers(groupResponseJson.groupMembers);
     }
-    
-    async function updateEvents() {
-      const groupEvents = await updateGroupEvents(groupId);
+
+    async function getEvents() {
+      const receivedEvents = await fetch(eventsUrl, {
+        method: 'GET',
+      });
+      let groupEvents = await receivedEvents.json();
+
+      groupEvents = groupEvents.map((event, idx) => {
+        return {
+          id: idx,
+          text: event[3] + "'s Event",
+          start: event[1],
+          end: event[2],
+        };
+      });
+
       setEvents(groupEvents);
-      setUpdated(true);
+      setFetched(true);
+      console.log(groupEvents);
     }
-    async function fetchEvents() {
-      const groupEvents = await fetchGroupEvents(groupId);
-      setEvents(groupEvents);
-      setTimeout(() => {
-        setFetched(true);
-      }, 2000);
-    }
+
     fetchData();
-    if (!fetched) fetchEvents();
-    if (!updated) updateEvents();
+    if (!fetched) getEvents();
   }, [events]);
 
   const handleDelete = () => {
@@ -105,10 +106,30 @@ export default function GroupDetails({ user }) {
         throw new Error('Failed to delete user');
       })
       .then((responseJson) => {
-        console.log(responseJson);
-        window.location.reload(false);
+        setEvents(responseJson);
       });
   };
+
+  async function updateEvents() {
+    const receivedEvents = await fetch(eventsUrl, {
+      method: 'PATCH',
+    });
+
+    let groupEvents = await receivedEvents.json();
+    console.log(groupEvents?.calendarEvents);
+
+    groupEvents = groupEvents?.calendarEvents.map((event, idx) => {
+      return {
+        id: idx,
+        text: event[3] + "'s Event",
+        start: event[1],
+        end: event[2],
+      };
+    });
+    console.log(groupEvents);
+
+    setEvents(groupEvents);
+  }
 
   return (
     <DefaultLayout
@@ -146,8 +167,23 @@ export default function GroupDetails({ user }) {
                         </Col>
                         <Col
                           className="d-flex justify-content-end"
-                          style={{ width: '100px' }}
+                          style={{ witdh: '100px' }}
                         >
+                          <p
+                            style={{
+                              cursor: 'pointer',
+                              position: 'absolute',
+                              right: '50px',
+                            }}
+                            onClick={() => {
+                              updateGroupMemberEvents(groupId, member[0]);
+                              setTimeout(() => {
+                                window.location.reload(false);
+                              }, 500);
+                            }}
+                          >
+                            Refresh
+                          </p>
                           {edit && (
                             <CloseButton
                               onClick={() => {
@@ -172,13 +208,6 @@ export default function GroupDetails({ user }) {
               </Col>
               <Col></Col>
             </Row>
-            <Row>
-              <Col></Col>
-              <Col style={{paddingTop: '5%'}} className="d-flex justify-content-center align-items-center mx-auto">
-                {edit && <DeleteGroupButton groupId={groupId}></DeleteGroupButton>}
-              </Col>
-              <Col></Col>
-            </Row>
           </Container>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -194,25 +223,18 @@ export default function GroupDetails({ user }) {
                 onClick={() => {
                   handleClose();
                   handleDelete();
+                  updateEvents();
+                  setTimeout(() => {
+                    window.location.reload(false);
+                  }, 100);
                 }}
               >
                 Delete user
               </Button>
             </Modal.Footer>
           </Modal>
-          <Col style={{paddingTop: '5%'}}> 
-            <Button className="d-flex justify-content-center align-items-center mx-auto" onClick={() => {
-              setAdd((prevAdd) => !prevAdd); 
-            }}
-            // when clicking this button, shows or closes form to create new event
-            >
-              Add Event
-            </Button>
-            <Col style={{paddingTop: '3%'}} className="d-flex justify-content-center align-items-center mx-auto">{add && <CreateEventForm></CreateEventForm>}</Col>
-          </Col>
         </Col>
       </Row>
-    </DefaultLayout> 
-
+    </DefaultLayout>
   );
 }

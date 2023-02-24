@@ -49,3 +49,27 @@ export async function updateGroupEvents(groupId) {
   return eventList;
 }
 
+export async function updateGroupMemberEvents(groupId, userId) {
+  const response = await fetch(
+    config.url + '/api/group/events/member' + groupId,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ id: userId }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  const { events } = await response.json();
+  console.log(events);
+  return;
+  const eventList = events.map((event, idx) => {
+    return {
+      id: idx,
+      text: 'My Event',
+      start: event[1],
+      end: event[2],
+    };
+  });
+  return eventList;
+}
