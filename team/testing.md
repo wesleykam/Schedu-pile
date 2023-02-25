@@ -12,6 +12,8 @@ To run our unit tests, run `cd frontend` and `npm test`.
 - AppNavBar.test.js
 - DefaultLayout.test.js
 
+## Future Plans for Unit Tests
+Our future plans for unit tests is to eventually create unit tests for only our components that are integral or important for user functionality. This may include things like buttons and forms that manipulate our groups or navigation components that direct users between pages. 
 
 # Integration Testing
 We are using the Jest and React Testing Libraries to implement our integration tests.
@@ -21,4 +23,7 @@ Our integration tests are meant to test the acceptance criteria for user stories
 To run our integration tests, run `cd frontend` and `npm test`.
 
 ## Current Completed Integration Tests:
-- NavigateGroups.test.js tests the user flow and functionality for user stories #38 and #18 
+- NavigateGroups.test.js tests the user flow and functionality for user stories #38 and #18. This test included components spanning from google authorization, such as `AuthButton.js`, to navigation, like `AppNavBar.js` and `GroupCard.js`, to group manipulation, like `memberList.js`.
+
+## Future Plans for Integration Tests:
+We likely do not have any future plans for integration testing because most of the integral parts of our app have already been tested. The integration tests also take much more effort than unit tests and we want to focus more on implementing more features for our users.
