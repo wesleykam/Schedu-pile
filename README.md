@@ -79,6 +79,10 @@ To run locally:
 ## Known Problems
 
  - Currently, the group calendar page has trouble loading all members' calendar events occasionally.
+ 
+## Testing
+
+- The documentation for our testing is located in `./team/testing.md`.
 
 ## Contributing
 
