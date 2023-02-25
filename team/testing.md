@@ -13,7 +13,7 @@ To run our unit tests, run `cd frontend` and `npm test`.
 - DefaultLayout.test.js
 
 ## Future Plans for Unit Tests
-Our future plans for unit tests is to eventually create unit tests for only our components that are integral or important for user functionality. This may include things like buttons and forms that manipulate our groups or navigation components that direct users between pages. 
+Our future plans for unit tests is to eventually create unit tests for only our components that are integral or important for user functionality. This may include things like buttons and forms that manipulate our groups or navigational components that direct users between pages. 
 
 # Integration Testing
 We are using the Jest and React Testing Libraries to implement our integration tests.
