@@ -1,53 +1,61 @@
 /* istanbul ignore file */
 import { config } from '../Constants';
 
-export async function fetchGroupEvents(groupId) {
-  const response = await fetch(config.url + `/api/group/${groupId}`);
-  const { groupMembers } = await response.json();
-  let events = [];
-  for (const member of groupMembers) {
-    const userResponse = await fetch(config.url + `/api/user/${member[0]}`);
-    const userData = await userResponse.json();
-    const userEvents = userData.map((event, idx) => {
+export async function fetchUserEvents(user) {
+  const response = await fetch(config.url + '/api/user', {
+    method: 'PATCH',
+    body: JSON.stringify(user),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.status === 200) {
+    const responseJson = await response.json();
+    const events = responseJson?.events.map((event, idx) => {
       return {
         id: idx,
-        text: member[1] + "'s Event",
+        text: event[0],
         start: event[1],
         end: event[2],
       };
     });
-    events = [...events, ...userEvents];
+    console.log(events);
+    return events;
+  } else {
+    return [];
   }
-
-  return events;
 }
 
-export async function updateGroupEvents(groupId) {
-  const response = await fetch(config.url + `/api/group/${groupId}`);
-  const { groupMembers } = await response.json();
-  let eventList = [];
-  for (const member of groupMembers) {
-    const userResponse = await fetch(config.url + '/api/user', {
-      method: 'PATCH',
-      body: JSON.stringify({ id: member[0] }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const { events } = await userResponse.json();
-    const userEvents = events.map((event, idx) => {
-      return {
-        id: idx,
-        text: member[1] + "'s Event",
-        start: event[1],
-        end: event[2],
-      };
-    });
-    eventList = [...eventList, ...userEvents];
+export async function checkGroup(url, user) {
+  const groupResponse = await fetch(url, {
+    method: 'GET',
+  });
+  const groupResponseJson = await groupResponse.json();
+  for (const member of groupResponseJson.groupMembers) {
+    if (member[0] === user.user.id) {
+      return { exists: true, group: groupResponseJson };
+    }
   }
-  console.log(eventList);
+  return { exists: false, group: null };
+}
 
-  return eventList;
+export async function fetchGroupEvents(url) {
+  const receivedEvents = await fetch(url, {
+    method: 'GET',
+  });
+  let groupEvents = await receivedEvents.json();
+
+  groupEvents = groupEvents.map((event, idx) => {
+    return {
+      id: idx,
+      text: event[3] + "'s Event",
+      start: event[1],
+      end: event[2],
+    };
+  });
+
+  return groupEvents;
 }
 
 export async function updateGroupMemberEvents(groupId, userId) {
@@ -62,15 +70,5 @@ export async function updateGroupMemberEvents(groupId, userId) {
     }
   );
   const { events } = await response.json();
-  console.log(events);
-  return;
-  const eventList = events.map((event, idx) => {
-    return {
-      id: idx,
-      text: 'My Event',
-      start: event[1],
-      end: event[2],
-    };
-  });
-  return eventList;
+  return events;
 }

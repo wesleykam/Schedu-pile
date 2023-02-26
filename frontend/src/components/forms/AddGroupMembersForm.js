@@ -1,38 +1,26 @@
 import { useState } from 'react';
 import { config } from '../../Constants';
-import Alert from 'react-bootstrap/Alert'
+import Alert from 'react-bootstrap/Alert';
+import { addGroupMember } from '../../lib/handleGroup';
 
 const AddGroupMembersForm = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const path = window.location.pathname;
     let url = config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
     const memberEmails = { email };
 
-    fetch(url, {
-      method: 'PATCH',
-      body: JSON.stringify(memberEmails),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          setError(true)
-          throw new Error('failed to fetch events');
-        }
-      })
-      .then((responseJson) => {
-        console.log(responseJson);
-        window.location.reload(false);
-      });
-  };
+    const response = await addGroupMember(url, memberEmails);
+    if (response.success) {
+      window.location.reload();
+    } else {
+      setError(true);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -42,13 +30,12 @@ const AddGroupMembersForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
-      {error && ([
-        'danger',
-      ].map((message) => (
-        <Alert key={message} variant={message}>
-          Invalid Member Email!
-        </Alert>
-      )))}
+      {error &&
+        ['danger'].map((message) => (
+          <Alert key={message} variant={message}>
+            Invalid Member Email!
+          </Alert>
+        ))}
     </form>
   );
 };
