@@ -115,7 +115,7 @@ export default function GroupDetails({ user }) {
                               updateGroupMemberEvents(groupId, member[0]);
                               setTimeout(() => {
                                 window.location.reload(false);
-                              }, 750);
+                              }, 1000);
                             }}
                           >
                             Refresh
