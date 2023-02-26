@@ -13,7 +13,6 @@ export const fetchUserGroups = (user) => {
       throw new Error('failed to fetch events');
     })
     .then((responseJson) => {
-      console.log(responseJson);
       return responseJson;
     });
 };

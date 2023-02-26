@@ -1,30 +1,30 @@
 import { config } from '../Constants';
 
-export async function addGroupMember(url, email) {
+export async function addGroupMember(url, emailAndId) {
   const response = await fetch(url, {
     method: 'PATCH',
-    body: JSON.stringify(email),
+    body: JSON.stringify(emailAndId),
     headers: {
       'Content-Type': 'application/json',
     },
   });
   if (response.status === 200)
     return { success: true, response: response.json() };
-  else return { success: false, response: null };
+  else return { success: false, response: response.json() };
 }
 
-export async function deleteGroupMember(url, deleteEmail) {
+export async function deleteGroupMember(url, emailAndId) {
   const response = await fetch(url, {
     method: 'PATCH',
     credentials: 'include',
-    body: JSON.stringify(deleteEmail),
+    body: JSON.stringify(emailAndId),
     headers: {
       'Content-Type': 'application/json',
     },
   });
   if (response.status === 200)
     return { success: true, events: response.json() };
-  else return { success: false, events: null };
+  else return { success: false, response: response.json() };
 }
 
 export async function fetchGroups(user) {
@@ -41,15 +41,16 @@ export async function fetchGroups(user) {
   else return [];
 }
 
-export async function deleteGroup(url) {
+export async function deleteGroup(url, userId) {
   const response = await fetch(url, {
     method: 'DELETE',
     credentials: 'include',
+    body: JSON.stringify(userId),
     headers: {
       'Content-Type': 'application/json',
     },
   });
   if (response.status === 200)
     return { success: true, response: response.json() };
-  else return { success: false, response: null };
+  else return { success: false, response: response.json() };
 }

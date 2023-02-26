@@ -20,7 +20,6 @@ export async function fetchUserEvents(user) {
         end: event[2],
       };
     });
-    console.log(events);
     return events;
   } else {
     return [];

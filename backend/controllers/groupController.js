@@ -58,14 +58,21 @@ const createGroup = async (req, res) => {
 // Delete group and remove group from all members
 const deleteGroup = async (req, res) => {
   const { id } = req.params;
+  const userId = req.body.userId;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: 'No such group' });
   }
 
-  const group = await Group.findOneAndDelete({ _id: id });
+  const user = await User.findOne({ googleId: userId });
 
-  for (let i=0; i < group.groupMembers.length; i++) {
+  const group = await Group.findOne({ _id: id });
+
+  if (user.googleId !== group.admin) {
+    return res.status(400).json({ error: 'Not admin' });
+  }
+
+  for (let i = 0; i < group.groupMembers.length; i++) {
     let user = await User.findOne({ email: group.groupMembers[i][2] });
 
     user.groupIds.splice(user.groupIds.indexOf(id), 1);
@@ -76,29 +83,38 @@ const deleteGroup = async (req, res) => {
     return res.status(400).json({ error: 'No such group' });
   }
 
+  await Group.deleteOne({ _id: id });
+
   res.status(200).json(group);
 };
 
+// Functionality: Add member to group and add group to member
 const updateGroup = async (req, res) => {
   const { id } = req.params;
   const email = req.body.email;
+  const googleId = req.body.userId;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: 'No such group' });
   }
 
-  let user = await User.findOne({ email: email });
+  let group = await Group.findOne({ _id: id });
 
+  if (googleId !== group.admin) {
+    return res.status(400).json({ error: 'Not admin' });
+  }
+
+  let user = await User.findOneAndUpdate(
+    { email: email },
+    { $addToSet: { groupIds: id } },
+    { new: true }
+  );
+  
   if (!user) {
     return res.status(400).json({ error: 'No such user' });
   }
-
-  user.groupIds.push(id);
-  user.groupIds = [...new Set(user.groupIds)];
+  
   const userId = user.googleId;
-  user.save();
-
-  let group = await Group.findOne({ _id: id });
 
   if (!group) {
     return res.status(400).json({ error: 'No such group' });
@@ -130,12 +146,22 @@ const updateGroup = async (req, res) => {
 const updateGroupDeleteMember = async (req, res) => {
   const { id } = req.params;
   const email = req.body.email;
+  const googleId = req.body.userId;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: 'No such group' });
   }
+  let group = await Group.findOne({ _id: id });
+
+  if (googleId !== group.admin) {
+    return res.status(400).json({ error: 'Not admin' });
+  }
 
   let user = await User.findOne({ email: email });
+
+  if (user.googleId === group.admin) {
+    return res.status(400).json({ error: 'Cannot delete admin' });
+  }
 
   const userId = user.googleId;
 
@@ -147,8 +173,6 @@ const updateGroupDeleteMember = async (req, res) => {
   let index = user.groupIds.indexOf(id);
   user.groupIds.splice(index, 1);
   user.save();
-
-  let group = await Group.findOne({ _id: id });
 
   if (!group) {
     return res.status(400).json({ error: 'No such group' });
@@ -194,6 +218,7 @@ const getGroupEvents = async (req, res) => {
   res.status(200).json(groupEvents);
 };
 
+// May be deprecated
 const updateGroupEvents = async (req, res) => {
   const { id } = req.params;
 

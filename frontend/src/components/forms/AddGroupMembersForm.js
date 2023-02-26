@@ -3,7 +3,7 @@ import { config } from '../../Constants';
 import Alert from 'react-bootstrap/Alert';
 import { addGroupMember } from '../../lib/handleGroup';
 
-const AddGroupMembersForm = () => {
+const AddGroupMembersForm = ({ user }) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
 
@@ -12,9 +12,9 @@ const AddGroupMembersForm = () => {
 
     const path = window.location.pathname;
     let url = config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
-    const memberEmails = { email };
+    const emailAndId = { email, userId: user.user.id };
 
-    const response = await addGroupMember(url, memberEmails);
+    const response = await addGroupMember(url, emailAndId);
     if (response.success) {
       window.location.reload();
     } else {
