@@ -55,6 +55,7 @@ const createGroup = async (req, res) => {
   }
 };
 
+// Delete group and remove group from all members
 const deleteGroup = async (req, res) => {
   const { id } = req.params;
 
@@ -63,6 +64,13 @@ const deleteGroup = async (req, res) => {
   }
 
   const group = await Group.findOneAndDelete({ _id: id });
+
+  for (let i=0; i < group.groupMembers.length; i++) {
+    let user = await User.findOne({ email: group.groupMembers[i][2] });
+
+    user.groupIds.splice(user.groupIds.indexOf(id), 1);
+    user.save();
+  }
 
   if (!group) {
     return res.status(400).json({ error: 'No such group' });
