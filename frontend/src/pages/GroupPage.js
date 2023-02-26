@@ -31,10 +31,10 @@ export default function GroupDetails({ user }) {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const [events, setEvents] = useState(null);
-  const [updated, setUpdated] = useState(false);
   const [fetched, setFetched] = useState(false);
   const [email, setDelete] = useState('');
   const [del_user, setDelUser] = useState('');
+  const [admin, setAdmin] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -52,6 +52,7 @@ export default function GroupDetails({ user }) {
       if (!groupInfo?.exists) navigate('/groups');
       setName(groupInfo.group.name);
       setMembers(groupInfo.group.groupMembers);
+      setAdmin(groupInfo.group.admin === user.user.id);
     }
     fetchData();
 
@@ -73,15 +74,17 @@ export default function GroupDetails({ user }) {
         </Col>
 
         <Col>
-          <Button
-            className="d-flex justify-content-center align-items-center mx-auto"
-            style={{ marginBottom: '5%' }}
-            onClick={() => {
-              setEdit((prevEdit) => !prevEdit);
-            }}
-          >
-            Edit
-          </Button>
+          {admin && (
+            <Button
+              className="d-flex justify-content-center align-items-center mx-auto"
+              style={{ marginBottom: '5%' }}
+              onClick={() => {
+                setEdit((prevEdit) => !prevEdit);
+              }}
+            >
+              Edit
+            </Button>
+          )}
           <Container fluid>
             <Row className="mb-3 d-flex justify-content-center align-items-center">
               <Col
@@ -112,12 +115,12 @@ export default function GroupDetails({ user }) {
                               updateGroupMemberEvents(groupId, member[0]);
                               setTimeout(() => {
                                 window.location.reload(false);
-                              }, 750);
+                              }, 1000);
                             }}
                           >
                             Refresh
                           </p>
-                          {edit && (
+                          {admin && edit && (
                             <CloseButton
                               onClick={() => {
                                 handleShow();
@@ -136,7 +139,9 @@ export default function GroupDetails({ user }) {
             <Row>
               <Col></Col>
               <Col className="d-flex justify-content-center align-items-center mx-auto">
-                {edit && <AddGroupMembersForm></AddGroupMembersForm>}
+                {admin && edit && (
+                  <AddGroupMembersForm user={user}></AddGroupMembersForm>
+                )}
               </Col>
               <Col></Col>
             </Row>
@@ -146,8 +151,11 @@ export default function GroupDetails({ user }) {
                 style={{ paddingTop: '5%' }}
                 className="d-flex justify-content-center align-items-center mx-auto"
               >
-                {edit && (
-                  <DeleteGroupButton groupId={groupId}></DeleteGroupButton>
+                {admin && edit && (
+                  <DeleteGroupButton
+                    groupId={groupId}
+                    userId={user.user.id}
+                  ></DeleteGroupButton>
                 )}
               </Col>
               <Col></Col>
@@ -166,7 +174,7 @@ export default function GroupDetails({ user }) {
                 variant="danger"
                 onClick={async () => {
                   handleClose();
-                  deleteGroupMember(deleteUrl, { email });
+                  deleteGroupMember(deleteUrl, { email, userId: user.user.id });
                   setTimeout(() => {
                     window.location.reload(false);
                   }, 100);

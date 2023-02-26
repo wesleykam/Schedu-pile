@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { config } from '../../Constants';
 import { deleteGroup } from '../../lib/handleGroup';
 
-export default function DeleteGroupButton({ groupId }) {
+export default function DeleteGroupButton({ groupId, userId }) {
   let url = config.url + '/api/group' + groupId;
   const navigate = useNavigate();
 
   // Calls Delete Group API and redirects to groups page
   async function handleDeleteGroup() {
-    const response = await deleteGroup(url);
+    const response = await deleteGroup(url, { userId });
     if (response?.success) {
       navigate('/groups');
     }
