@@ -5,7 +5,7 @@ import {
   DayPilotCalendar,
   DayPilotNavigator,
 } from '@daypilot/daypilot-lite-react';
-import { config } from '../../Constants';
+import { fetchUserEvents } from '../../lib/fetchEvents';
 
 const styles = {
   left: {
@@ -30,38 +30,11 @@ class EventCalendar extends Component {
     return this.calendarRef.current.control;
   }
 
-  getUpdatedEvents = () => {
-    fetch(config.url + '/api/user', {
-      method: 'PATCH',
-      body: JSON.stringify(this.props.user.user),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error('failed to fetch events');
-      })
-      .then((responseJson) => {
-        const events = responseJson?.events.map((event, idx) => {
-          return {
-            id: idx,
-            text: event[0],
-            start: event[1],
-            end: event[2],
-          };
-        });
-        console.log(events);
-        this.calendar.update({ events });
-      });
-  };
-
   componentDidMount() {
-    setTimeout(() => {
+    setTimeout(async () => {
       if (this.props.user?.authenticated) {
-        this.getUpdatedEvents();
+        const events = await fetchUserEvents(this.props.user.user);
+        this.calendar.update({ events });
       }
       if (this.props.groups) {
         const events = this.props.events;
