@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Form, Col, Button, InputGroup, Row, Modal } from 'react-bootstrap';
 
 export default function FreeTimeForm() {
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
   const [endDate, setEndDate] = useState('');
   const [duration, setDuration] = useState(60);
   const [startTime, setStartTime] = useState('09:00');
@@ -19,47 +21,22 @@ export default function FreeTimeForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // onSubmit({
-    //   startDate,
-    //   endDate,
-    //   startTime,
-    //   endTime,
-    //   duration,
-    // });
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(`${startDate}T${endTime}`);
+    const range = { start, end, duration };
+    console.log(range);
   }
 
-  function renderTimeOptions(start, end) {
-    const options = [];
-    let time = new Date(`2022-01-01T${start}:00`);
-    while (time <= new Date(`2022-01-01T${end}:00`)) {
-      options.push(
-        <option key={time.toISOString()} value={time.toISOString()}>
-          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-        </option>
-      );
-      time.setMinutes(time.getMinutes() + 60);
-    }
-    return options;
+  function handleStartTimeChange(event) {
+    setStartTime(event.target.value);
   }
 
-  function renderDurationOptions() {
-    const options = [];
-    for (let i = 15; i <= 480; i += 15) {
-      const hours = Math.floor(i / 60);
-      const minutes = i % 60;
-      const hoursText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
-      const minutesText =
-        minutes > 0 ? `${minutes} minute${minutes !== 1 ? 's' : ''}` : '';
-      const text = `${hoursText}${
-        hours > 0 && minutes > 0 ? ' ' : ''
-      }${minutesText}`;
-      options.push(
-        <option key={i} value={i}>
-          {text}
-        </option>
-      );
-    }
-    return options;
+  function handleEndTimeChange(event) {
+    setEndTime(event.target.value);
+  }
+
+  function handleDurationChange(event) {
+    setDuration(event.target.value);
   }
 
   return (
@@ -96,56 +73,73 @@ export default function FreeTimeForm() {
                 </Form.Group>
               </Col>
             </Row>
+
             <Row style={{ marginTop: '10px' }}>
-              <Col md={4}>
-                <Form.Group controlId="start-time">
+              <Col md={6}>
+                <Form.Group controlId="startTime">
                   <Form.Label>Start Time:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={startTime}
-                    onChange={(event) => setStartTime(event.target.value)}
-                  >
-                    {renderTimeOptions('05:00', '24:00')}
-                  </Form.Control>
+                  <div className="d-flex">
+                    <div className="flex-fill">
+                      <Form.Control
+                        type="time"
+                        step="900"
+                        value={startTime}
+                        onChange={handleStartTimeChange}
+                      />
+                    </div>
+                  </div>
                 </Form.Group>
               </Col>
-              <Col md={4}>
-                <Form.Group controlId="end-time">
+              <Col md={6}>
+                <Form.Group controlId="endTime">
                   <Form.Label>End Time:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={endTime}
-                    onChange={(event) => setEndTime(event.target.value)}
-                  >
-                    {renderTimeOptions('05:00', '24:00')}
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="duration">
-                  <Form.Label>Duration:</Form.Label>
-                  <InputGroup>
-                    <Form.Control
-                      as="select"
-                      value={duration}
-                      onChange={(event) => setDuration(event.target.value)}
-                    >
-                      {renderDurationOptions()}
-                    </Form.Control>
-                    <Form.Group controlId="duration">
-                      <Form.Label>Duration: {duration} minutes</Form.Label>
-                    </Form.Group>
-                  </InputGroup>
+                  <div className="d-flex">
+                    <div className="flex-fill">
+                      <Form.Control
+                        type="time"
+                        value={endTime}
+                        onChange={handleEndTimeChange}
+                      />
+                    </div>
+                  </div>
                 </Form.Group>
               </Col>
             </Row>
-            <Button
-              style={{ marginTop: '20px' }}
-              variant="primary"
-              type="submit"
-            >
-              Submit
-            </Button>
+            <Row>
+              <Col md={12}>
+                <Form.Group controlId="duration">
+                  <Form.Label>Duration:</Form.Label>
+                  <Form.Control
+                    type="range"
+                    min="15"
+                    max="600"
+                    step="15"
+                    value={duration}
+                    onChange={handleDurationChange}
+                  />
+                  <p className="text-center">
+                    {Math.floor(duration / 60)} hour
+                    {Math.floor(duration / 60) !== 1 ? 's' : ''} {duration % 60}{' '}
+                    minute
+                    {duration % 60 !== 1 ? 's' : ''}
+                  </p>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-center align-items-center">
+                <div className="d-grid gap-2">
+                  <Button
+                    className="justify-content-center"
+                    variant="primary"
+                    size="lg"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </Col>
+            </Row>
           </Form>
         </Modal.Body>
       </Modal>
