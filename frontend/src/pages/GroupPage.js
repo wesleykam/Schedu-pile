@@ -21,6 +21,7 @@ import {
 } from '../lib/fetchEvents';
 import { checkUser } from '../lib/fetchUser';
 import { deleteGroupMember } from '../lib/handleGroup';
+import FreeTimeForm from '../components/forms/FreeTimeForm';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -146,7 +147,6 @@ export default function GroupDetails({ user }) {
               <Col></Col>
             </Row>
             <Row>
-              <Col></Col>
               <Col
                 style={{ paddingTop: '5%' }}
                 className="d-flex justify-content-center align-items-center mx-auto"
@@ -158,7 +158,14 @@ export default function GroupDetails({ user }) {
                   ></DeleteGroupButton>
                 )}
               </Col>
-              <Col></Col>
+            </Row>
+            <Row>
+              <Col
+                style={{ paddingTop: '5%' }}
+                className="d-flex justify-content-center align-items-center mx-auto"
+              >
+                <FreeTimeForm />
+              </Col>
             </Row>
           </Container>
           <Modal show={show} onHide={handleClose}>
