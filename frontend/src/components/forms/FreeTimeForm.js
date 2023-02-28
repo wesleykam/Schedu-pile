@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Col, Button, InputGroup, Row, Modal } from 'react-bootstrap';
+import { Form, Col, Button, Row, Modal } from 'react-bootstrap';
 
 export default function FreeTimeForm() {
   const [startDate, setStartDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(new Date().toISOString().slice(0, 10));
   const [duration, setDuration] = useState(60);
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState('17:00');
@@ -21,9 +21,9 @@ export default function FreeTimeForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const start = new Date(`${startDate}T${startTime}`);
-    const end = new Date(`${startDate}T${endTime}`);
-    const range = { start, end, duration };
+    // const start = new Date(`${startDate}T${startTime}`);
+    // const end = new Date(`${startDate}T${endTime}`);
+    const range = { startDate, endDate, startTime, endTime, duration };
     console.log(range);
   }
 
@@ -132,7 +132,6 @@ export default function FreeTimeForm() {
                   <Button
                     className="justify-content-center"
                     variant="primary"
-                    size="lg"
                     type="submit"
                   >
                     Submit

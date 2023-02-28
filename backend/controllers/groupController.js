@@ -109,11 +109,11 @@ const updateGroup = async (req, res) => {
     { $addToSet: { groupIds: id } },
     { new: true }
   );
-  
+
   if (!user) {
     return res.status(400).json({ error: 'No such user' });
   }
-  
+
   const userId = user.googleId;
 
   if (!group) {
@@ -329,6 +329,107 @@ const updateGroupMemberEvents = async (req, res) => {
   res.status(200).json(group.calendarEvents);
 };
 
+const getFreeTime = async (req, res) => {
+  const { id } = req.params;
+  const { startDate, endDate, startTime, endTime, duration } = req.body;
+  // Create an array of all the start and end times of the events within the date range
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No such group' });
+  }
+
+  const group = await Group.findById(id);
+
+  if (!group) {
+    return res.status(404).json({ error: 'No such group' });
+  }
+
+  let times = [];
+  for (let event of events) {
+    if (event.startDate >= startDate && event.startDate <= endDate) {
+      times.push({ time: event.startTime, isStart: true });
+    }
+    if (event.endDate >= startDate && event.endDate <= endDate) {
+      times.push({ time: event.endTime, isStart: false });
+    }
+  }
+  // Sort the times array by time
+  times.sort((a, b) => {
+    if (a.time < b.time) {
+      return -1;
+    }
+    if (a.time > b.time) {
+      return 1;
+    }
+    return 0;
+  });
+  // Loop through the times array to find free time slots
+  let freeTimes = [];
+  let prevTime = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate(),
+    startTime.getHours(),
+    startTime.getMinutes()
+  );
+  for (let i = 0; i < times.length; i++) {
+    let currTime = new Date(prevTime);
+    let event = times[i];
+    if (event.isStart) {
+      // The current event starts, so check if there's a free time slot
+      if (
+        event.time > prevTime &&
+        event.time.getTime() - prevTime.getTime() >= duration * 60000
+      ) {
+        // There's a free time slot between prevTime and event.time
+        let freeTime = {
+          startDate: new Date(prevTime),
+          startTime: new Date(prevTime),
+          endDate: new Date(prevTime),
+          endTime: new Date(event.time),
+        };
+        freeTime.endDate.setDate(freeTime.startDate.getDate());
+        freeTime.endTime.setDate(freeTime.startDate.getDate());
+        freeTimes.push(freeTime);
+      }
+      // Move prevTime to the start of the event
+      currTime.setHours(event.time.getHours());
+      currTime.setMinutes(event.time.getMinutes());
+      prevTime = currTime;
+    } else {
+      // The current event ends, so move prevTime to the end of the event
+      currTime.setHours(event.time.getHours());
+      currTime.setMinutes(event.time.getMinutes());
+      prevTime = currTime;
+    }
+  }
+  // Check if there's a free time slot at the end of the day
+  let lastTime = new Date(
+    endDate.getFullYear(),
+    endDate.getMonth(),
+    endDate.getDate(),
+    endTime.getHours(),
+    endTime.getMinutes()
+  );
+  if (
+    lastTime > prevTime &&
+    lastTime.getTime() - prevTime.getTime() >= duration * 60000
+  ) {
+    // There's a free time slot between prevTime and lastTime
+    let freeTime = {
+      startDate: new Date(prevTime),
+      startTime: new Date(prevTime),
+      endDate: new Date(endDate),
+      endTime: new Date(lastTime),
+    };
+    freeTime.endDate.setDate(freeTime.startDate.getDate());
+    freeTime.endTime.setDate(freeTime.startDate.getDate());
+    freeTimes.push(freeTime);
+  }
+  // Return the array of free time slots
+  return res.status(200).json(freeTimes);
+};
+
 async function addGroupEventsHelper(memberGoogleId) {
   let user = await User.findOne({ googleId: memberGoogleId });
 
@@ -459,4 +560,5 @@ module.exports = {
   getGroupEvents,
   updateGroupEvents,
   updateGroupMemberEvents,
+  getFreeTime,
 };
