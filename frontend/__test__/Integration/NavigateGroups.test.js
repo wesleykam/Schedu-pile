@@ -10,7 +10,7 @@ import Groups from '../../src/components/Group/Groups';
 import AppNavbar from '../../src/components/Nav/AppNavbar';
 import AuthButton from '../../src/components/Buttons/AuthButton';
 import { config } from '../../src/Constants';
-import MemberList from '../../src/components/Group/memberList';
+import MemberList from '../../src/components/Group/MemberList';
 
 const navigate = jest.fn();
 
