@@ -10,9 +10,7 @@ import { checkGroup, fetchGroupEvents } from '../lib/fetchEvents';
 import { checkUser } from '../lib/fetchUser';
 import MemberList from '../components/Group/memberList';
 import DeleteModal from '../components/Group/DeleteModal';
-import { deleteGroupMember } from '../lib/handleGroup';
 import FreeTimeForm from '../components/forms/FreeTimeForm';
-import FreeTimeFormOnly from '../components/forms/FreeTimeFormOnly';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
