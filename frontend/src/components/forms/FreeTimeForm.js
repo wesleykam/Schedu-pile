@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Col, Button, Row, Modal } from 'react-bootstrap';
+import { getFreeTime } from '../../lib/fetchEvents';
 
 export default function FreeTimeForm() {
+  const path = window.location.pathname;
+  let groupId = path.substring(path.lastIndexOf('/'));
   const [startDate, setStartDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
@@ -19,12 +22,18 @@ export default function FreeTimeForm() {
     setShow(true);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     // const start = new Date(`${startDate}T${startTime}`);
     // const end = new Date(`${startDate}T${endTime}`);
-    const range = { startDate, endDate, startTime, endTime, duration };
-    console.log(range);
+    const range = {
+      startDateStr: startDate,
+      endDateStr: endDate,
+      startTimeStr: startTime,
+      endTimeStr: endTime,
+      duration,
+    };
+    getFreeTime(groupId, range);
   }
 
   function handleStartTimeChange(event) {

@@ -71,3 +71,29 @@ export async function updateGroupMemberEvents(groupId, userId) {
   const { events } = await response.json();
   return events;
 }
+
+export async function getFreeTime(groupId, range) {
+  const response = await fetch(config.url + '/api/group/free' + groupId, {
+    method: 'PATCH',
+    body: JSON.stringify(range),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const events = await response.json();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const freeTimes = events.map((event) => {
+    const start = new Date(event.start);
+    const end = new Date(event.end);
+
+    return {
+      ...event,
+      start: start.toLocaleString('en-US', { timeZone: timezone }),
+      end: end.toLocaleString('en-US', { timeZone: timezone }),
+    };
+  });
+
+  console.log(freeTimes);
+  // return freeTimes;
+}
