@@ -348,29 +348,13 @@ const getFreeTime = async (req, res) => {
 
   const events = group.calendarEvents;
 
-  const timezone = 'America/Los_Angeles';
-  const startDate = new Date(
-    `${startDateStr}T00:00:00${getTimezoneOffset(timezone)}`
-  );
-  const endDate = new Date(
-    `${endDateStr}T00:00:00${getTimezoneOffset(timezone)}`
-  );
-  const startTime = new Date(
-    `1970-01-01T${startTimeStr}:00${getTimezoneOffset(timezone)}`
-  );
-  const endTime = new Date(
-    `1970-01-01T${endTimeStr}:00${getTimezoneOffset(timezone)}`
-  );
+  const startDate = new Date(`${startDateStr}T00:00:00`);
+  const endDate = new Date(`${endDateStr}T00:00:00`);
+  const startTime = new Date(`1970-01-01T${startTimeStr}:00`);
+  const endTime = new Date(`1970-01-01T${endTimeStr}:00`);
 
-  // Convert event start and end times to PST timezone
-  const pstEvents = events.map((event) => {
-    const pstStart = new Date(`${event[0]}Z`).toLocaleString('en-US', {
-      timeZone: timezone,
-    });
-    const pstEnd = new Date(`${event[1]}Z`).toLocaleString('en-US', {
-      timeZone: timezone,
-    });
-    return { start: new Date(pstStart), end: new Date(pstEnd) };
+  const calendarEvents = events.map((event) => {
+    return { start: new Date(`${event[1]}`), end: new Date(`${event[2]}`) };
   });
 
   const availableBlocks = [];
@@ -399,7 +383,7 @@ const getFreeTime = async (req, res) => {
   }
 
   // Loop through each event and shorten any overlapping blocks
-  pstEvents.forEach((event) => {
+  calendarEvents.forEach((event) => {
     availableBlocks.forEach((block, i) => {
       const blockStart = block.start.getTime();
       const blockEnd = block.end.getTime();
@@ -460,35 +444,16 @@ const getFreeTime = async (req, res) => {
         (block.end.getTime() - block.start.getTime()) / 60000; // Convert to minutes
       return blockDuration >= duration;
     })
-    .map((block) => {
-      // Convert block start and end times to local time
-      const localStart = block.start.toLocaleString('en-US', {
-        timeZone: timezone,
-      });
-      const localEnd = block.end.toLocaleString('en-US', {
-        timeZone: timezone,
-      });
-      return { start: localStart, end: localEnd };
+    .map((block, id) => {
+      // Convert block start and end times tolocal time
+      const localStart = block.start;
+      const localEnd = block.end;
+      return { id, text: 'Available Time', start: localStart, end: localEnd };
     });
 
   // Return the result array
   return res.status(200).json(result);
 };
-
-// Helper function to get the timezone offset in minutes
-function getTimezoneOffset(timezone) {
-  const date = new Date();
-  const offset = date.getTimezoneOffset();
-  const offsetHours = Math.abs(Math.floor(offset / 60));
-  const offsetMinutes = Math.abs(offset % 60);
-  const sign = offset > 0 ? '-' : '+';
-  return `${sign}${padZero(offsetHours)}:${padZero(offsetMinutes)}`;
-}
-
-// Helper function to add leading zeros to a number
-function padZero(num) {
-  return num.toString().padStart(2, '0');
-}
 
 async function addGroupEventsHelper(memberGoogleId) {
   let user = await User.findOne({ googleId: memberGoogleId });

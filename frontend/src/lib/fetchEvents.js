@@ -81,6 +81,7 @@ export async function getFreeTime(groupId, range) {
     },
   });
   const events = await response.json();
+
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const freeTimes = events.map((event) => {
@@ -88,12 +89,12 @@ export async function getFreeTime(groupId, range) {
     const end = new Date(event.end);
 
     return {
-      ...event,
+      text: event.text,
       start: start.toLocaleString('en-US', { timeZone: timezone }),
       end: end.toLocaleString('en-US', { timeZone: timezone }),
     };
   });
 
-  console.log(freeTimes);
-  // return freeTimes;
+  // console.log(freeTimes);
+  return freeTimes;
 }
