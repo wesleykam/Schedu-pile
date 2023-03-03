@@ -39,7 +39,7 @@ export async function checkGroup(url, user) {
   return { exists: false, group: null };
 }
 
-export async function fetchGroupEvents(url) {
+export async function fetchGroupEvents(url, hideId) {
   const receivedEvents = await fetch(url, {
     method: 'GET',
   });
@@ -51,9 +51,21 @@ export async function fetchGroupEvents(url) {
       text: event[3] + "'s Event",
       start: event[1],
       end: event[2],
+      userId: event[4],
     };
   });
 
+  let len = 0;
+  {
+    hideId ? (len = hideId.length) : (len = 0);
+  }
+  for (let i = 0; i < len; i++) {
+    groupEvents = groupEvents.filter((event) => {
+      console.log(hideId[i]);
+      return event.userId !== hideId[i];
+    });
+  }
+  console.log(groupEvents);
   return groupEvents;
 }
 
