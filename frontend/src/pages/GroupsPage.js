@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateGroupButton from '../components/Buttons/CreateGroupButton';
+import InviteMenu from '../components/Invite/InviteMenu';
 import Groups from '../components/Group/Groups';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { checkUser } from '../lib/fetchUser';
@@ -27,7 +28,7 @@ export default function GroupsPage({ user }) {
   });
 
   return (
-    <DefaultLayout header={'Groups'} component={<CreateGroupButton />}>
+    <DefaultLayout header={'Groups'} component={<><InviteMenu style={{zIndex: 999}}/> <CreateGroupButton /></>}>
       <Groups groups={groups} />
     </DefaultLayout>
   );

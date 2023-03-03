@@ -11,7 +11,7 @@ export default function DefaultLayout({ children, header, component }) {
   const navigate = useNavigate();
   return (
     <>
-      <Container>
+      <Container style={{zIndex: 999}}>
         <Row>
           <Col className={start} xs={4}>
             <h5
