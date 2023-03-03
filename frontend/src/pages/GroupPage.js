@@ -10,8 +10,7 @@ import { checkGroup, fetchGroupEvents } from '../lib/fetchEvents';
 import { checkUser } from '../lib/fetchUser';
 import MemberList from '../components/Group/memberList';
 import DeleteModal from '../components/Group/DeleteModal';
-import { deleteGroupMember } from '../lib/handleGroup';
-import { Modal } from 'react-bootstrap';
+import FreeTimeForm from '../components/forms/FreeTimeForm';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -105,7 +104,6 @@ export default function GroupDetails({ user }) {
               <Col></Col>
             </Row>
             <Row>
-              <Col></Col>
               <Col
                 style={{ paddingTop: '5%' }}
                 className="d-flex justify-content-center align-items-center mx-auto"
@@ -117,7 +115,14 @@ export default function GroupDetails({ user }) {
                   ></DeleteGroupButton>
                 )}
               </Col>
-              <Col></Col>
+            </Row>
+            <Row>
+              <Col
+                style={{ paddingTop: '5%' }}
+                className="d-flex justify-content-center align-items-center mx-auto"
+              >
+                <FreeTimeForm events={events} setEvents={setEvents} />
+              </Col>
             </Row>
           </Container>
           <DeleteModal

@@ -109,11 +109,11 @@ const updateGroup = async (req, res) => {
     { $addToSet: { groupIds: id } },
     { new: true }
   );
-  
+
   if (!user) {
     return res.status(400).json({ error: 'No such user' });
   }
-  
+
   const userId = user.googleId;
 
   if (!group) {
@@ -329,6 +329,132 @@ const updateGroupMemberEvents = async (req, res) => {
   res.status(200).json(group.calendarEvents);
 };
 
+const getFreeTime = async (req, res) => {
+  const { id } = req.params;
+  const { startDateStr, endDateStr, startTimeStr, endTimeStr, duration } =
+    req.body;
+
+  // Create an array of all the start and end times of the events within the date range
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No such group' });
+  }
+
+  const group = await Group.findById(id);
+
+  if (!group) {
+    return res.status(404).json({ error: 'No such group' });
+  }
+
+  const events = group.calendarEvents;
+
+  const startDate = new Date(`${startDateStr}T00:00:00`);
+  const endDate = new Date(`${endDateStr}T00:00:00`);
+  const startTime = new Date(`1970-01-01T${startTimeStr}:00`);
+  const endTime = new Date(`1970-01-01T${endTimeStr}:00`);
+
+  const calendarEvents = events.map((event) => {
+    return { start: new Date(`${event[1]}`), end: new Date(`${event[2]}`) };
+  });
+
+  const availableBlocks = [];
+
+  // Loop through each day and add full blocks to the availableBlocks array
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    const blockStart = new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      startTime.getHours(),
+      startTime.getMinutes()
+    );
+    const blockEnd = new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      endTime.getHours(),
+      endTime.getMinutes()
+    );
+    const blockDuration = (blockEnd.getTime() - blockStart.getTime()) / 60000; // Convert to minutes
+
+    if (blockDuration >= duration) {
+      availableBlocks.push({ start: blockStart, end: blockEnd });
+    }
+  }
+
+  // Loop through each event and shorten any overlapping blocks
+  calendarEvents.forEach((event) => {
+    availableBlocks.forEach((block, i) => {
+      const blockStart = block.start.getTime();
+      const blockEnd = block.end.getTime();
+
+      if (
+        event.end.getTime() > blockStart &&
+        event.start.getTime() < blockEnd
+      ) {
+        // The event overlaps with this block
+        if (
+          event.start.getTime() <= blockStart &&
+          event.end.getTime() >= blockEnd
+        ) {
+          // The event completely overlaps with this block, so exclude the whole block
+          availableBlocks.splice(i, 1);
+        } else if (
+          event.start.getTime() > blockStart &&
+          event.end.getTime() < blockEnd
+        ) {
+          // The event is entirely within this block, so split the block into two parts
+          const newBlock = { start: block.start, end: block.end };
+          availableBlocks.splice(i, 1, newBlock);
+
+          // shorten the first part of the block
+          if (event.start.getTime() > block.start.getTime()) {
+            newBlock.end = new Date(event.start.getTime());
+          }
+
+          // shorten the second part of the block
+          if (event.end.getTime() < block.end.getTime()) {
+            availableBlocks.splice(i + 1, 0, {
+              start: new Date(event.end.getTime()),
+              end: block.end,
+            });
+            newBlock.end = new Date(event.start.getTime());
+          }
+        } else if (
+          event.start.getTime() <= blockStart &&
+          event.end.getTime() < blockEnd
+        ) {
+          // The event starts before this block, so shorten the first part of the block
+          block.start = new Date(event.end.getTime());
+        } else if (
+          event.start.getTime() > blockStart &&
+          event.end.getTime() >= blockEnd
+        ) {
+          // The event ends after this block, so shorten the second part of the block
+          block.end = new Date(event.start.getTime());
+        }
+      }
+    });
+  });
+
+  // Loop through each available block and add it to the result
+  const result = availableBlocks
+    .filter((block) => {
+      const blockDuration =
+        (block.end.getTime() - block.start.getTime()) / 60000; // Convert to minutes
+      return blockDuration >= duration;
+    })
+    .map((block, id) => {
+      // Convert block start and end times tolocal time
+      const localStart = block.start;
+      const localEnd = block.end;
+      return { id, text: 'Available Time', start: localStart, end: localEnd };
+    });
+
+  // Return the result array
+  return res.status(200).json(result);
+};
+
 async function addGroupEventsHelper(memberGoogleId) {
   let user = await User.findOne({ googleId: memberGoogleId });
 
@@ -459,4 +585,5 @@ module.exports = {
   getGroupEvents,
   updateGroupEvents,
   updateGroupMemberEvents,
+  getFreeTime,
 };
