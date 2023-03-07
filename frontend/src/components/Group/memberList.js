@@ -10,7 +10,7 @@ export default function MemberList(props) {
       {members.map((member) => (
         <ListGroup.Item
           className="overflow-auto d-flex align-items-center"
-          style={{ width: '400px', height: '35px' }}
+          style={{ width: '400px', height: '41px' }}
         >
           <Row className="d-flex">
             <Col className="me-3" style={{ width: '275px' }}>

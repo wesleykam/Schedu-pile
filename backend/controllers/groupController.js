@@ -331,8 +331,14 @@ const updateGroupMemberEvents = async (req, res) => {
 
 const getFreeTime = async (req, res) => {
   const { id } = req.params;
-  const { startDateStr, endDateStr, startTimeStr, endTimeStr, duration } =
-    req.body;
+  const {
+    startDateStr,
+    endDateStr,
+    startTimeStr,
+    endTimeStr,
+    duration,
+    hideId,
+  } = req.body;
 
   // Create an array of all the start and end times of the events within the date range
 
@@ -346,7 +352,18 @@ const getFreeTime = async (req, res) => {
     return res.status(404).json({ error: 'No such group' });
   }
 
-  const events = group.calendarEvents;
+  let events = group.calendarEvents;
+
+  let len = 0;
+  {
+    hideId ? (len = hideId.length) : (len = 0);
+  }
+  console.log(len);
+  for (let i = 0; i < len; i++) {
+    events = events.filter((event) => {
+      return event[4] !== hideId[i];
+    });
+  }
 
   const startDate = new Date(`${startDateStr}T00:00:00`);
   const endDate = new Date(`${endDateStr}T00:00:00`);

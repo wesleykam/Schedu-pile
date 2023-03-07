@@ -3,7 +3,7 @@ import { Form, Col, Button, Row, Modal } from 'react-bootstrap';
 import { getFreeTime } from '../../lib/fetchEvents';
 import FreeTimesList from '../Group/FreeTimesList';
 
-export default function FreeTimeForm({ events, setEvents }) {
+export default function FreeTimeForm({ events, setEvents, hideId }) {
   const path = window.location.pathname;
   let groupId = path.substring(path.lastIndexOf('/'));
   const [startDate, setStartDate] = useState(
@@ -34,6 +34,7 @@ export default function FreeTimeForm({ events, setEvents }) {
       startTimeStr: startTime,
       endTimeStr: endTime,
       duration,
+      hideId,
     };
     console.log(range);
     const availability = await getFreeTime(groupId, range);
