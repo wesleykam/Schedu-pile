@@ -19,7 +19,7 @@ export default function DeleteGroupButton({ groupId, userId }) {
 
   return (
     <>
-      <Button onClick={handleDeleteGroup}>Delete Group</Button>
+      <Button onClick={handleDeleteGroup} variant="danger">Delete Group</Button>
     </>
   );
 }
