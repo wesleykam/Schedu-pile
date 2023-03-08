@@ -9,6 +9,7 @@ const path = require('path')
 const authRoutes = require('./routes/auth-routes');
 const groupRoutes = require('./routes/groups');
 const userRoutes = require('./routes/users');
+const inviteRoutes = require('./routes/invites');
 const keys = require('./config/keys');
 const config = require('./config');
 
@@ -32,6 +33,7 @@ app.use(
 app.use('/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/group', groupRoutes);
+app.use('/api/invite', inviteRoutes);
 
 const authCheck = (req, res, next) => {
   if (!req.user) {

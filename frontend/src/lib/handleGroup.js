@@ -1,13 +1,13 @@
 import { config } from '../Constants';
 
-export async function addGroupMember(url, emailAndId) {
+export async function addGroupMember(url, body) {
   const response = await fetch(url, {
     method: 'PATCH',
-    body: JSON.stringify(emailAndId),
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
   if (response.status === 200)
     return { success: true, response: response.json() };
   else return { success: false, response: response.json() };

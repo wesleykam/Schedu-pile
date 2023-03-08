@@ -3,21 +3,26 @@ import { config } from '../../Constants';
 import Alert from 'react-bootstrap/Alert';
 import { addGroupMember } from '../../lib/handleGroup';
 
-const AddGroupMembersForm = ({ user }) => {
+const AddGroupMembersForm = ({ user, groupName, groupId }) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const path = window.location.pathname;
-    let url = config.url + '/api/group' + path.substring(path.lastIndexOf('/'));
-    const emailAndId = { email, userId: user.user.id };
+    let url = config.url + '/api/invite/send';
+    const body = { email, groupName, groupId };
 
-    const response = await addGroupMember(url, emailAndId);
+    const response = await addGroupMember(url, body);
+    const message = await response.response;
+    
     if (response.success) {
-      window.location.reload();
+      setError(false);
+      setSuccess(true);
     } else {
+      setSuccess(false);
       setError(true);
     }
   }
@@ -34,6 +39,12 @@ const AddGroupMembersForm = ({ user }) => {
         ['danger'].map((message) => (
           <Alert key={message} variant={message}>
             Invalid Member Email!
+          </Alert>
+        ))}
+      {success &&
+        ['success'].map((message) => (
+          <Alert key={message} variant={message}>
+            Invitation Sent!
           </Alert>
         ))}
     </form>
