@@ -38,29 +38,35 @@ async function updateUserEvents(req, res) {
     orderBy: 'startTime',
   });
   const events = response.data.items;
-  if (!events || events.length === 0) {
-    console.log('No upcoming events found.');
-    return;
-  }
-  console.log('Upcoming 10 events:');
   let userEvents = [];
-  events.map((event, i) => {
-    var options = { hour12: false };
+  if (!events || events.length === 0) {
+    console.log('No upcoming events found in Google Calendar.');
+  } else {
+    console.log('Upcoming 10 events:');
+    events.map((event, i) => {
+      var options = { hour12: false };
 
-    const start = event.start.dateTime || event.start.date;
-    const end = event.end.dateTime;
+      const start = event.start.dateTime || event.start.date;
+      const end = event.end.dateTime;
 
-    if (!start.includes('T')) {
-      return;
-    }
+      if (!start.includes('T')) {
+        return;
+      }
 
-    if (end)
-      userEvents.push([
-        event.summary,
-        start.substring(0, start.lastIndexOf('-')),
-        end.substring(0, end.lastIndexOf('-')),
-      ]);
-  });
+      if (end)
+        userEvents.push([
+          event.summary,
+          start.substring(0, start.lastIndexOf('-')),
+          end.substring(0, end.lastIndexOf('-')),
+          user.name,
+          user.googleId,
+        ]);
+    });
+  }
+
+  console.log("Local + Google Calendar events:")
+  userEvents = (user.localEvents).concat(userEvents);
+  console.log(userEvents);
 
   const userEventsResponse = await User.findOneAndUpdate(
     { googleId: req.body.id },
@@ -108,9 +114,39 @@ async function getUserGroupsInfo(req, res) {
   res.status(200).json(groupInfo);
 }
 
+async function addUserEvent(req,res) {
+  // get user
+  const id  = req.body.id;
+  const user = await User.findOne({ googleId: id });
+  const eventName = req.body.eventName;
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+
+  try {
+    if (!user) {
+      return res.status(404).json({ error: 'No such user' });
+    }
+
+    const formattedStartTime = startDate + 'T' + startTime + ':00'; 
+    const formattedEndTime = endDate + 'T' + endTime + ':00';
+
+    // // push new event to their events array
+    user.localEvents.push([eventName, formattedStartTime, formattedEndTime, user.name, user.googleId]);
+    user.localEvents = [...new Set(user.localEvents)];
+    user.save();
+
+    res.status(200).json(user.localEvents);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   getUserEvents,
   updateUserEvents,
   getUserGroups,
   getUserGroupsInfo,
+  addUserEvent,
 };

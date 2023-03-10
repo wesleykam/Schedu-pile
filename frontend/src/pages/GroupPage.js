@@ -1,5 +1,5 @@
 import DefaultLayout from '../layouts/DefaultLayout';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, ButtonGroup } from 'react-bootstrap';
 import AddGroupMembersForm from '../components/forms/AddGroupMembersForm';
 import DeleteGroupButton from '../components/Buttons/DeleteGroupButton';
 import { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import DeleteModal from '../components/Group/DeleteModal';
 import FreeTimeForm from '../components/forms/FreeTimeForm';
 import { Modal } from 'react-bootstrap';
 import { deleteGroup } from '../lib/handleGroup';
+import CreateEventForm from '../components/forms/CreateEventForm.js';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -77,17 +78,22 @@ export default function GroupDetails({ user }) {
         </Col>
 
         <Col>
-          {admin.isAdmin && (
-            <Button
-              className="d-flex justify-content-center align-items-center mx-auto"
-              style={{ marginBottom: '5%' }}
-              onClick={() => {
-                setEdit((prevEdit) => !prevEdit);
-              }}
-            >
-              Edit
-            </Button>
-          )}
+          <div className="d-flex justify-content-center align-items-center mx-auto">
+            <ButtonGroup style={{marginBottom: '5%', marginRight: '0.5%'}}>
+              {admin.isAdmin && (
+                <Button
+                  onClick={() => {
+                    setEdit((prevEdit) => !prevEdit);
+                  }}
+                >
+                  Edit Group
+                </Button>
+              )}
+            </ButtonGroup>
+            <ButtonGroup style={{marginBottom: '5%', marginRight: '0.5%'}}>
+              <FreeTimeForm events={events} setEvents={setEvents} />
+            </ButtonGroup>
+          </div>
           <Container fluid>
             <Row className="mb-3 d-flex justify-content-center align-items-center">
               <Col

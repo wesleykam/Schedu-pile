@@ -337,8 +337,8 @@ const updateGroupMemberEvents = async (req, res) => {
         ]);
     });
   }
-
   user.events = userEvents;
+  userEvents = userEvents.concat(user.localEvents);
   console.log(userEvents);
 
   if (group.groupMembers.some((member) => member[0] === userId)) {

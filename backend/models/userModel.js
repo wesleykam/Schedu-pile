@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    localEvents: {
+        type: Array, 
+        default: []
+    },
     groupIds: {
         type: Array,
         default: []
