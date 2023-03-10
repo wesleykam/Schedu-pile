@@ -1,9 +1,10 @@
 import { ListGroup, Row, Col, CloseButton } from 'react-bootstrap';
 import { updateGroupMemberEvents } from '../../lib/fetchEvents';
-import { useEffect, React } from 'react';
+import { useEffect, React, useState } from 'react';
 
 export default function MemberList(props) {
   const members = props.members;
+  const [clicked, setClicked] = useState(false);
 
   return (
     <ListGroup>
@@ -66,6 +67,8 @@ export default function MemberList(props) {
                   right: '50px',
                 }}
                 onClick={() => {
+                  if (clicked) return;
+                  setClicked(true);
                   updateGroupMemberEvents(props.groupId, member[0]);
                   setTimeout(() => {
                     window.location.reload(false);
