@@ -351,7 +351,15 @@ const updateGroupMemberEvents = async (req, res) => {
     (event) => event.length !== 6
   );
 
-  group.createdEvents = group.createdEvents.filter((event) => createdEvents.includes(event));
+  group.createdEvents = group.createdEvents.filter((event) => {
+    let found = false;
+    for (const createdEvent of createdEvents) {
+      if (event[5] === createdEvent[5]) {
+        found = true;
+      }
+    }
+    return found;
+  });
 
   group.calendarEvents = [...group.calendarEvents, ...group.createdEvents];
 
