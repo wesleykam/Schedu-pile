@@ -11,6 +11,8 @@ import { checkUser } from '../lib/fetchUser';
 import MemberList from '../components/Group/memberList';
 import DeleteModal from '../components/Group/DeleteModal';
 import FreeTimeForm from '../components/forms/FreeTimeForm';
+import { Modal } from 'react-bootstrap';
+import { deleteGroup } from '../lib/handleGroup';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -25,9 +27,13 @@ export default function GroupDetails({ user }) {
   const [del_user, setDelUser] = useState('');
   const [admin, setAdmin] = useState('');
   const [hideId, setHideId] = useState([]);
+  const [showGroup, setShowGroup] = useState(false);
+  const [del_group, setDelGroup] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseGroup = () => setShowGroup(false);
+  const handleShowGroup = () => setShowGroup(true);
   const path = window.location.pathname;
   let groupId = path.substring(path.lastIndexOf('/'));
   let url = config.url + '/api/group' + groupId;
@@ -116,8 +122,9 @@ export default function GroupDetails({ user }) {
               >
                 {admin.isAdmin && edit && (
                   <DeleteGroupButton
-                    groupId={groupId}
-                    userId={user.user.id}
+                    handleShowGroup={handleShowGroup}
+                    setDelGroup={setDelGroup}
+                    groupName={name}
                   ></DeleteGroupButton>
                 )}
               </Col>
@@ -145,6 +152,32 @@ export default function GroupDetails({ user }) {
             name={del_user.name}
             deleteUrl={deleteUrl}
           ></DeleteModal>
+          <Modal show={showGroup} onHide={handleCloseGroup}>
+            <Modal.Header closeButton>
+              <Modal.Title>Remove {del_group}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to remove group {del_group}?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseGroup}>
+                Close
+              </Button>
+              <Button
+                variant="danger"
+                onClick={async () => {
+                  handleCloseGroup();
+                  const response = await deleteGroup(url, { userId: user.user.id });
+                  if (response?.success) {
+                    navigate('/groups');
+                  }
+                  setTimeout(() => {
+                    window.location.reload(false);
+                  }, 100);
+                }}
+              >
+                Delete Group
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Col>
       </Row>
     </DefaultLayout>
