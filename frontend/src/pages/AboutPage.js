@@ -7,7 +7,7 @@ function AboutPage() {
     const navigate = useNavigate();
   return (
     <div className="about-container">
-      <h1 className="about-title">About Schedu-pile</h1>
+      <div className="about-title">About Schedu-pile</div>
       <p className="about-description">
         CREATED FOR SIMPLICITY. 
         <br />

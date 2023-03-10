@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import CreateGroupForm from '../components/forms/CreateGroupForm';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { checkUser } from '../lib/fetchUser';
-
+import '../style/DefaultLayout.css';
 const CreateGroupPage = ({ user }) => {
   const navigate = useNavigate();
 
@@ -17,9 +16,9 @@ const CreateGroupPage = ({ user }) => {
   });
 
   return (
-    <DefaultLayout header={'Create a Group'}>
+    <><DefaultLayout header={'Create a Group'}>
       <CreateGroupForm user={user}></CreateGroupForm>
-    </DefaultLayout>
+    </DefaultLayout><div className='background_padding'></div></>
   );
 };
 

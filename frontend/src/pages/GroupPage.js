@@ -107,6 +107,7 @@ export default function GroupDetails({ user }) {
               </Col>
             </Row>
             <Row>
+              
               <Col></Col>
               <Col className="d-flex justify-content-center align-items-center mx-auto">
                 {admin.isAdmin && edit && (
