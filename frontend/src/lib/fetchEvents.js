@@ -104,9 +104,36 @@ export async function getFreeTime(groupId, range) {
       text: event.text,
       start: start.toLocaleString('en-US', { timeZone: timezone }),
       end: end.toLocaleString('en-US', { timeZone: timezone }),
+      eventDuration: event.eventDuration,
     };
   });
 
-  // console.log(freeTimes);
   return freeTimes;
+}
+
+export async function writeEvents(
+  eventsUrl,
+  time,
+  userId,
+  hideId,
+  eventName,
+  eventDescription
+) {
+  const response = await fetch(eventsUrl, {
+    method: 'POST',
+    body: JSON.stringify({
+      id: userId,
+      time,
+      hideId,
+      eventName,
+      eventDescription,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const message = await response.json();
+  console.log('hi');
+  return message;
 }

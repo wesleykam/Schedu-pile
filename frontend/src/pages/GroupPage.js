@@ -111,7 +111,11 @@ export default function GroupDetails({ user }) {
               <Col></Col>
               <Col className="d-flex justify-content-center align-items-center mx-auto">
                 {admin.isAdmin && edit && (
-                  <AddGroupMembersForm user={user} groupName={name} groupId={groupId.substring(1)}></AddGroupMembersForm>
+                  <AddGroupMembersForm
+                    user={user}
+                    groupName={name}
+                    groupId={groupId.substring(1)}
+                  ></AddGroupMembersForm>
                 )}
               </Col>
               <Col></Col>
@@ -136,9 +140,9 @@ export default function GroupDetails({ user }) {
                 className="d-flex justify-content-center align-items-center mx-auto"
               >
                 <FreeTimeForm
-                  events={events}
-                  setEvents={setEvents}
                   hideId={hideId}
+                  eventsUrl={eventsUrl}
+                  userId={user}
                 />
               </Col>
             </Row>

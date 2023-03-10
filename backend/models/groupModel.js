@@ -17,6 +17,10 @@ const groupSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdEvents: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model('Group', groupSchema);

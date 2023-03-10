@@ -290,6 +290,7 @@ const updateGroupMemberEvents = async (req, res) => {
   });
   const events = response.data.items;
   let userEvents = [];
+  let createdEvents = [];
   if (!events || events.length === 0) {
     console.log('No upcoming events found.');
   } else {
@@ -303,7 +304,29 @@ const updateGroupMemberEvents = async (req, res) => {
       if (!start.includes('T')) {
         return;
       }
-
+      if (event.description) {
+        if (event.description.includes(id)) {
+          const eventID = event.description.substring(
+            event.description.length - 10
+          );
+          const newGroupEvent = [
+            event.summary,
+            start.substring(0, start.lastIndexOf('-')),
+            end.substring(0, end.lastIndexOf('-')),
+            'Group ' + group.name,
+            group.admin,
+            eventID,
+          ];
+          const existingElement = group.createdEvents.find(
+            (event) => event[5] === newGroupEvent[5]
+          );
+          if (!existingElement) {
+            group.createdEvents.push(newGroupEvent);
+          }
+          createdEvents.push(newGroupEvent);
+          return;
+        }
+      }
       if (end)
         userEvents.push([
           event.summary,
@@ -323,6 +346,14 @@ const updateGroupMemberEvents = async (req, res) => {
       group.calendarEvents = [...group.calendarEvents, ...userEvents];
     }
   }
+
+  group.calendarEvents = group.calendarEvents.filter(
+    (event) => event.length !== 6
+  );
+
+  group.createdEvents = group.createdEvents.filter((event) => createdEvents.includes(event));
+
+  group.calendarEvents = [...group.calendarEvents, ...group.createdEvents];
 
   group.save();
 
@@ -465,7 +496,15 @@ const getFreeTime = async (req, res) => {
       // Convert block start and end times tolocal time
       const localStart = block.start;
       const localEnd = block.end;
-      return { id, text: 'Available Time', start: localStart, end: localEnd };
+      const blockDuration =
+        (block.end.getTime() - block.start.getTime()) / 60000;
+      return {
+        id,
+        text: 'Available Time',
+        start: localStart,
+        end: localEnd,
+        eventDuration: blockDuration,
+      };
     });
 
   // Return the result array
@@ -593,6 +632,107 @@ async function updateGroupEventsHelper(groupMembers) {
   return allUserEvents;
 }
 
+const writeToGoogleCalendar = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.body.id;
+  const time = req.body.time;
+  const hideId = req.body.hideId;
+  const eventName = req.body.eventName;
+  const eventDescription = req.body.eventDescription;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'No such group' });
+  }
+
+  let user = await User.findOne({ googleId: userId });
+
+  if (!user) {
+    return res.status(400).json({ error: 'No such user' });
+  }
+
+  let group = await Group.findOne({ _id: id });
+
+  if (!group) {
+    return res.status(400).json({ error: 'No such group' });
+  }
+
+  const credentials = {
+    type: 'authorized_user',
+    client_id: config.googleClientID,
+    client_secret: config.googleClientSecret,
+    refresh_token: user.refreshToken,
+  };
+
+  auth = google.auth.fromJSON(credentials);
+
+  const calendar = google.calendar({ version: 'v3', auth });
+
+  let groupEmails = [];
+  let newGroupMembers = group.groupMembers;
+
+  let len = 0;
+  {
+    hideId ? (len = hideId.length) : (len = 0);
+  }
+  for (let i = 0; i < len; i++) {
+    newGroupMembers = newGroupMembers.filter((member) => {
+      return member[0] !== hideId[i];
+    });
+  }
+
+  for (let i = 0; i < newGroupMembers.length; i++) {
+    let memberEmail = { email: newGroupMembers[i][2] };
+    groupEmails = [...groupEmails, memberEmail];
+  }
+
+  const currentDate = new Date();
+  const timestamp = currentDate.getTime().toString();
+  const uniqueID = timestamp.padStart(10, '0');
+
+  var groupDescription =
+    '\nThis event was made by Schedu-pile!\nID: ' + id + uniqueID;
+
+  const startTime = new Date(time.start);
+  const endTime = new Date(time.end);
+  var event = {
+    summary: eventName,
+    description: eventDescription + groupDescription,
+    start: {
+      dateTime: startTime,
+      timeZone: 'America/Los_Angeles',
+    },
+    end: {
+      dateTime: endTime,
+      timeZone: 'America/Los_Angeles',
+    },
+    attendees: groupEmails,
+    reminders: {
+      useDefault: false,
+      overrides: [
+        { method: 'email', minutes: 24 * 60 },
+        { method: 'popup', minutes: 10 },
+      ],
+    },
+  };
+
+  calendar.events.insert(
+    {
+      auth: auth,
+      calendarId: 'primary',
+      resource: event,
+      sendUpdates: 'all',
+    },
+    function (err, event) {
+      if (err) {
+        return res.status(400).json({
+          error: 'There was an error contacting the Calendar service: ' + err,
+        });
+      }
+      return res.status(200).json({ event: event.htmlLink });
+    }
+  );
+};
+
 module.exports = {
   getGroup,
   createGroup,
@@ -603,4 +743,5 @@ module.exports = {
   updateGroupEvents,
   updateGroupMemberEvents,
   getFreeTime,
+  writeToGoogleCalendar,
 };
