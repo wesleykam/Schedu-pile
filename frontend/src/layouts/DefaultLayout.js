@@ -7,13 +7,6 @@ export default function DefaultLayout({ children, header, component }) {
   return (
     <div className='background'>
       <div className='backbutton'>
-        <h5
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            navigate('/groups');
-          }}>
-          Go back
-        </h5>
       </div>
           <div className="headerContainer">
             <h>{header}</h>
