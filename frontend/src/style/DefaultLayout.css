@@ -17,6 +17,12 @@
   width: 100%;
   z-index: 0;
 }
+.background_padding2{
+  background-color: #a1caf0;
+  height: 0vh;
+  width: 100%;
+  z-index: 0;
+}
 .backbutton{
   z-index: 10;
   margin: 30px 10px 40px;
@@ -24,7 +30,7 @@
   align-items: center;
   margin-right: 90%;
   padding: 0.5vw;
-  background-color: rgba(243, 247, 250, 0.5);
+  background-color: #a1caf0;
   border-radius: 3px;
   text-align: center;
 }
