@@ -63,7 +63,7 @@ export default function FreeTimeForm({ hideId, eventsUrl, userId }) {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Create A New Event
+        Schedule New Group Event
       </Button>
       <Modal show={show} onHide={handleClose}>
         <div style={{ display: createEventModal ? 'none' : '' }}>

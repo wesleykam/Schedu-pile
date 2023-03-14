@@ -47,6 +47,7 @@ export default function MemberList(props) {
                     cursor: 'pointer',
                     position: 'absolute',
                     right: '150px',
+                    marginRight: '-5%'
                   }}
                   onClick={() => {
                     let newHideId = [...props.hideId, member[0]];
@@ -57,7 +58,7 @@ export default function MemberList(props) {
                     }, 1000);
                   }}
                 >
-                  Hide
+                  Hide Events
                 </p>
               )}
               <p
