@@ -5,7 +5,8 @@ export default function DeleteGroupButton({ groupName, handleShowGroup, setDelGr
 
   return (
     <>
-      <Button onClick={() => {
+      <Button variant = "danger"
+        onClick={() => {
         handleShowGroup();
         setDelGroup(groupName);
       }
