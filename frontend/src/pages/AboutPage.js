@@ -24,6 +24,7 @@ function AboutPage() {
         TRY IT NOW!
         <br />
         With Schedu-pile, no more back-and-forth emailing to find a suitable time for everyone. Simply add your Google Calendar events and Schedu-pile will take care of the rest.
+        See our <a href="https://docs.google.com/document/d/134g6gAUn2Y1an1Z7dkvAMBPaprowT-OzQM-ypO07hGA/edit#" target="_blank"> user manual</a> for more details
       </p>
     </div>
   );
