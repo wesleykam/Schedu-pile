@@ -6,7 +6,7 @@ import {
   DayPilotNavigator,
 } from '@daypilot/daypilot-lite-react';
 import { fetchUserEvents } from '../../lib/fetchEvents';
-import "../../style/Cal.css"
+import '../../style/Cal.css';
 const styles = {
   left: {
     marginRight: '10px',
@@ -52,7 +52,7 @@ class EventCalendar extends Component {
           marginTop: this.props.groups ? null : '2vh',
           marginLeft: !this.props.groups ? null : '2vw',
           marginLeft: '2vw',
-          marginRight: '2vw'
+          marginRight: '2vw',
         }}
       >
         <div style={styles.left}>
@@ -70,6 +70,7 @@ class EventCalendar extends Component {
         <div style={styles.main}>
           <DayPilotCalendar
             eventMoveHandling="Disabled"
+            eventResizeHandling="Disabled"
             {...config}
             ref={this.calendarRef}
           />

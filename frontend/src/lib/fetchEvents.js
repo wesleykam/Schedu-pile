@@ -97,8 +97,11 @@ export async function getFreeTime(groupId, range) {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const freeTimes = events.map((event) => {
-    const start = new Date(event.start);
-    const end = new Date(event.end);
+    let start = new Date(event.start);
+    let end = new Date(event.end);
+
+    start = new Date(start.getTime() + start.getTimezoneOffset() * 60000);
+    end = new Date(end.getTime() + end.getTimezoneOffset() * 60000);
 
     return {
       text: event.text,
