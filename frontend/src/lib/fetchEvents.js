@@ -137,6 +137,5 @@ export async function writeEvents(
   });
 
   const message = await response.json();
-  console.log('hi');
   return message;
 }

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Col, Button, Row, Modal } from 'react-bootstrap';
-import { writeEvents } from '../../lib/fetchEvents';
+import { updateGroupMemberEvents, writeEvents } from '../../lib/fetchEvents';
 
 export default function SpecificFreeTimeForm({
   time,
   userId,
+  groupId,
   eventsUrl,
   hideId,
   eventName,
@@ -140,8 +141,11 @@ export default function SpecificFreeTimeForm({
                         hideId,
                         eventName,
                         eventDescription
-                      );
-                      window.location.reload(false);
+                      ).then((res) => {
+                        updateGroupMemberEvents(groupId, userId.user.id);
+                      }).then((res) => {
+                        window.location.reload(false);
+                      });
                     }}
                   >
                     Submit

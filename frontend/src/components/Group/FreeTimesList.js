@@ -7,6 +7,7 @@ export default function FreeTimesList({
   freeTimes,
   eventsUrl,
   userId,
+  groupId,
   hideId,
   eventName,
   eventDescription,
@@ -37,6 +38,7 @@ export default function FreeTimesList({
                 <SpecificFreeTimeForm
                   time={time}
                   userId={userId}
+                  groupId={groupId}
                   eventsUrl={eventsUrl}
                   hideId={hideId}
                   eventName={eventName}

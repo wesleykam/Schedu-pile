@@ -191,6 +191,7 @@ export default function FreeTimeForm({ hideId, eventsUrl, userId }) {
               freeTimes={freeTimes}
               eventsUrl={eventsUrl}
               userId={userId}
+              groupId={groupId}
               hideId={hideId}
               eventName={eventName}
               eventDescription={eventDescription}
