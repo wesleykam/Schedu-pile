@@ -96,7 +96,11 @@ export default function GroupDetails({ user }) {
               )}
             </ButtonGroup>
             <ButtonGroup style={{marginBottom: '5%', marginRight: '0.5%'}}>
-              <FreeTimeForm events={events} setEvents={setEvents} />
+              <FreeTimeForm
+                  hideId={hideId}
+                  eventsUrl={eventsUrl}
+                  userId={user}
+                /> 
             </ButtonGroup>
           </div>
           <Container fluid>
