@@ -5,13 +5,12 @@ import React from 'react';
 export default function DefaultLayout({ children, header, component }) {
   const navigate = useNavigate();
   return (
-    <div className='background'>
-      <div className='backbutton'>
+    <div className="background">
+      <div className="backbutton"></div>
+      <div className="headerContainer">
+        <h>{header}</h>
+        <p>{component}</p>
       </div>
-          <div className="headerContainer">
-            <h>{header}</h>
-            <p>{component}</p>
-          </div>
       <p>{children}</p>
     </div>
   );
