@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 function AboutPage() {
     const navigate = useNavigate();
+    const linkStyle = {
+      color: '#FF9800'
+    };
   return (
     <div className="about-container">
       <div className="about-title">About Schedu-pile</div>
@@ -24,6 +27,7 @@ function AboutPage() {
         TRY IT NOW!
         <br />
         With Schedu-pile, no more back-and-forth emailing to find a suitable time for everyone. Simply add your Google Calendar events and Schedu-pile will take care of the rest.
+        See our <a href="https://docs.google.com/document/d/134g6gAUn2Y1an1Z7dkvAMBPaprowT-OzQM-ypO07hGA/edit#" target="_blank" style={linkStyle}> user manual</a> for more details
       </p>
     </div>
   );
