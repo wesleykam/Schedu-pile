@@ -40,7 +40,7 @@ export default function CreateEventForm({user}) {
       throw new Error('failed to create event');
     }).then((responseJson) => {
       console.log(responseJson);
-      handleClose();
+      window.location.reload(true);
     })
   }
 

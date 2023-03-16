@@ -71,7 +71,12 @@ export default function GroupDetails({ user }) {
   }, [events]);
 
   return (
-    <DefaultLayout className={CLASSNAME} header={`${name}`}>
+    <DefaultLayout className={CLASSNAME}>
+      <Row style={{marginTop: '-1%', marginBottom: '1%'}}>
+        <Col className='d-flex justify-content-center align-items-center'>
+          <h1>{name}</h1>
+        </Col>
+      </Row>
       <Row>
         <Col xs={8}>
           <EventCalendar events={events} groups={true} />
@@ -91,7 +96,11 @@ export default function GroupDetails({ user }) {
               )}
             </ButtonGroup>
             <ButtonGroup style={{marginBottom: '5%', marginRight: '0.5%'}}>
-              <FreeTimeForm events={events} setEvents={setEvents} />
+              <FreeTimeForm
+                  hideId={hideId}
+                  eventsUrl={eventsUrl}
+                  userId={user}
+                /> 
             </ButtonGroup>
           </div>
           <Container fluid>
@@ -138,18 +147,6 @@ export default function GroupDetails({ user }) {
                     groupName={name}
                   ></DeleteGroupButton>
                 )}
-              </Col>
-            </Row>
-            <Row>
-              <Col
-                style={{ paddingTop: '5%' }}
-                className="d-flex justify-content-center align-items-center mx-auto"
-              >
-                <FreeTimeForm
-                  hideId={hideId}
-                  eventsUrl={eventsUrl}
-                  userId={user}
-                />
               </Col>
             </Row>
           </Container>
