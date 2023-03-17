@@ -91,4 +91,8 @@ To run locally:
 3. Push to the branch: git push origin my-new-feature
 4. Submit a pull request
 
+# Deployment
+Here is a link to our live testable version: https://project-t10-schedulecompiler.herokuapp.com/
+Please email lukewoolly02@gmail.com if you need access to the app. 
+
 License: MIT License
