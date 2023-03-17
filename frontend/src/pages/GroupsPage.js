@@ -19,7 +19,6 @@ export default function GroupsPage({ user }) {
       setTimeout(async () => {
         const groups = await fetchGroups(user);
         setGroups(groups);
-        console.log(groups)
         setLoading(false);
       }, 100);
     }
@@ -29,10 +28,22 @@ export default function GroupsPage({ user }) {
   });
 
   return (
-    <div className='backgroundColor'>
-    <GroupsPageLayout header={'Groups'} component={<><InviteMenu user={user} setGroups={setGroups} style={{zIndex: 999}}/> <CreateGroupButton /></>}>
-      <Groups groups={groups} />
-    </GroupsPageLayout>
+    <div className="backgroundColor">
+      <GroupsPageLayout
+        header={'Groups'}
+        component={
+          <>
+            <InviteMenu
+              user={user}
+              setGroups={setGroups}
+              style={{ zIndex: 999 }}
+            />{' '}
+            <CreateGroupButton user={user} />
+          </>
+        }
+      >
+        <Groups groups={groups} />
+      </GroupsPageLayout>
     </div>
   );
 }

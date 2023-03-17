@@ -33,7 +33,6 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/about" element={<AboutPage user={user} />} />
           <Route path="/home" element={<HomePage user={user} />} />
-          <Route path="/create" element={<CreateGroupPage user={user} />} />
           <Route path="/groups" element={<GroupsPage user={user} />} />
           <Route path="/groups/:id" element={<GroupPage user={user} />} />
           {/* <Route path="/profile" element={<ProfilePage />} /> */}

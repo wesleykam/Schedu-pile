@@ -93,7 +93,6 @@ export default function MemberList(props) {
                       email: member[2],
                       id: member[0],
                     });
-                    console.log(JSON.parse(localStorage.getItem('hideId')));
                   }}
                 ></CloseButton>
               )}

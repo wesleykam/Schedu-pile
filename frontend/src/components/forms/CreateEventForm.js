@@ -3,7 +3,7 @@ import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
 import { config } from '../../Constants';
 
-export default function CreateEventForm({user}) {
+export default function CreateEventForm({ user }) {
   const [event, setEvent] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -24,7 +24,14 @@ export default function CreateEventForm({user}) {
 
   const createEvent = (e) => {
     e.preventDefault();
-    const body = { id: user.user.id, eventName: event, startTime: startTime, endTime: endTime, startDate: startDate, endDate: endDate };
+    const body = {
+      id: user.user.id,
+      eventName: event,
+      startTime: startTime,
+      endTime: endTime,
+      startDate: startDate,
+      endDate: endDate,
+    };
     let url = config.url + '/api/user/events/';
 
     fetch(url, {
@@ -32,22 +39,23 @@ export default function CreateEventForm({user}) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body)
-    }).then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      throw new Error('failed to create event');
-    }).then((responseJson) => {
-      console.log(responseJson);
-      window.location.reload(true);
+      body: JSON.stringify(body),
     })
-  }
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error('failed to create event');
+      })
+      .then((responseJson) => {
+        window.location.reload(true);
+      });
+  };
 
   return (
     <>
-    <Button variant="primary" onClick={handleShow}>
-      Add New Event
+      <Button variant="primary" onClick={handleShow}>
+        Add New Event
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -69,7 +77,6 @@ export default function CreateEventForm({user}) {
                 </Form.Group>
               </Col>
             </Row>
-
 
             <Row>
               <Col md={6}>
@@ -138,7 +145,7 @@ export default function CreateEventForm({user}) {
                     className="justify-content-center"
                     variant="primary"
                     type="submit"
-                    style={{marginTop: "25%"}}
+                    style={{ marginTop: '25%' }}
                   >
                     Submit
                   </Button>
@@ -151,4 +158,3 @@ export default function CreateEventForm({user}) {
     </>
   );
 }
-

@@ -24,15 +24,15 @@ function AppNavbar({ user }) {
           </Navbar.Brand>
           {user.authenticated ? (
             <Nav>
-              <Nav.Link href="/create">Create Group</Nav.Link>
               <Nav.Link href="/groups">Groups</Nav.Link>
             </Nav>
           ) : null}
           <Nav className="ml-auto">
-            <Nav.Link href="/about" style={{ marginRight: '10px' }}>
-              About
-            </Nav.Link>
-            <Nav.Link href={user.authenticated ? "/home" : "/"} style={{ marginRight: '10px' }}>
+            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link
+              href={user.authenticated ? '/home' : '/'}
+              style={{ marginRight: '10px' }}
+            >
               Home
             </Nav.Link>
             <AuthButton user={user} />
