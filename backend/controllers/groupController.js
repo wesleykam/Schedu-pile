@@ -153,10 +153,6 @@ const updateGroupDeleteMember = async (req, res) => {
   }
   let group = await Group.findOne({ _id: id });
 
-  if (googleId !== group.admin) {
-    return res.status(400).json({ error: 'Not admin' });
-  }
-
   let user = await User.findOne({ email: email });
 
   if (user.googleId === group.admin) {

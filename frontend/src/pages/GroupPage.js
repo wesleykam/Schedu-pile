@@ -13,7 +13,8 @@ import DeleteModal from '../components/Group/DeleteModal';
 import FreeTimeForm from '../components/forms/FreeTimeForm';
 import { Modal } from 'react-bootstrap';
 import { deleteGroup } from '../lib/handleGroup';
-import CreateEventForm from '../components/forms/CreateEventForm.js';
+import LeaveGroupModal from '../components/Group/LeaveGroupModal.js';
+import LeaveGroupButton from '../components/Buttons/LeaveGroupButton.js';
 
 const CLASSNAME = 'd-flex justify-content-center align-items-center';
 
@@ -30,11 +31,14 @@ export default function GroupDetails({ user }) {
   const [hideId, setHideId] = useState([]);
   const [showGroup, setShowGroup] = useState(false);
   const [del_group, setDelGroup] = useState('');
+  const [showLeave, setShowLeave] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseGroup = () => setShowGroup(false);
   const handleShowGroup = () => setShowGroup(true);
+  const handleCloseLeave = () => setShowLeave(false);
+  const handleShowLeave = () => setShowLeave(true);
   const path = window.location.pathname;
   let groupId = path.substring(path.lastIndexOf('/'));
   let url = config.url + '/api/group' + groupId;
@@ -147,6 +151,14 @@ export default function GroupDetails({ user }) {
                     groupName={name}
                   ></DeleteGroupButton>
                 )}
+
+                {!(admin.isAdmin) && (
+                  <LeaveGroupButton
+                    user={user}
+                    setDelUser={setDelUser}
+                    handleShowLeave={handleShowLeave}
+                  ></LeaveGroupButton>
+                )}
               </Col>
             </Row>
           </Container>
@@ -160,6 +172,14 @@ export default function GroupDetails({ user }) {
             name={del_user.name}
             deleteUrl={deleteUrl}
           ></DeleteModal>
+          <LeaveGroupModal
+            show={showLeave}
+            email={del_user.email}
+            id={del_user.id}
+            handleClose={handleCloseLeave}
+            groupName={name}
+            deleteUrl={deleteUrl}
+          ></LeaveGroupModal>
           <Modal show={showGroup} onHide={handleCloseGroup}>
             <Modal.Header closeButton>
               <Modal.Title>Remove {del_group}</Modal.Title>
@@ -186,6 +206,7 @@ export default function GroupDetails({ user }) {
               </Button>
             </Modal.Footer>
           </Modal>
+
         </Col>
       </Row>
     </DefaultLayout>
