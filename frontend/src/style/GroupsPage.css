@@ -19,11 +19,22 @@
     width: 100%;
     z-index: -1;
   } 
-
+  
   .headerContainer {
     z-index: 10;
     width: auto;
     margin-top: -2%;
+  }
+  
+  .headerContainer h1 {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 10vw;
+    height: 100%;
+    font-weight: 600;
+    color: rgb(13, 13, 13);
+    padding-bottom: 10%;
   }
   
   .headerContainer p {

@@ -5,7 +5,7 @@ import EventCalendar from '../components/calender/EventCalendar';
 import { checkUser } from '../lib/fetchUser';
 import DefaultLayout from "../layouts/DefaultLayout"
 import CreateEventForm from '../components/forms/CreateEventForm';
-import '../style/DefaultLayout.css';
+
 export default function HomePage({ user }) {
   const navigate = useNavigate();
   const welcomeMessage = "Welcome, " + user?.user?.displayName+"!";
