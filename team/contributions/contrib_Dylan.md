@@ -6,8 +6,8 @@ Dylan contributed to 61/112 PRs completed. Of those 61, 37 were PR reviews and 2
 
 ## Backend and Frontend
 - [Set up authentication on the backend and frontend using Google OAuth with Luke](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/55)
-- [Allow users to create group events based on nonoverlapping free times and prevent duplication of created group events with Luke](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/203) 
 - [Find nonoverlapping free times for all users in a Group and create a form for it](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/180)
+- [Allow users to create group events based on nonoverlapping free times and prevent duplication of created group events with Luke](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/203) 
 - [Set up admin users for groups on the backend and frontend](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/170)
 
 ## Backend
