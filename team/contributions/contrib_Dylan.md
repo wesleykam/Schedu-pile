@@ -1,6 +1,6 @@
 # Overview
 
-Dylan contributed to 61/112 PRs completed. Of those 61, 37 were PR reviews and 24 were created by Dylan.
+Dylan contributed to 61/112 PRs completed. Of those 61, 37 were PR reviews and 24 were worked on by Dylan.
 
 # Contributions
 
