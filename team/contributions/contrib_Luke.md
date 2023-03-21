@@ -1,7 +1,7 @@
 # Contributions
 
 ## Backend and Frontend
-- [Created a Google Cloud project to enable google OAuth and Google Calendar read/write APIs in our app]
+- Created a Google Cloud project to enable google OAuth and Google Calendar read/write APIs in our app
 - [Moved user authentication using Google OAuth to backend with a new frontend with Dylan](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/55)
 - [Created a button on the frontend to delete users from a group in the backend](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/118)
 - [Allowed users to hide certain group member's events by preventing them from being returned from backend](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/184)
