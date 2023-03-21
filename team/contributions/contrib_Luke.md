@@ -14,13 +14,13 @@
 - [Refactored GroupPage.js and prevented users from deleting group admins](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/178)
 - [Changed the Create Group page from its own page to a modal/ prevented users from spamming submit](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/227)
 
-# Backend
+## Backend
 - [Allow our backend to have access to Google Calendar APIs after user logs in](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/issues/47)
 - [Created caching system in the backend for user and group events to make our pages load faster](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/136)
 - [Prevent hidden events in a group's calendar from affecting their scheduling a new event form](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/190)
 - [Implemented backend API call to google calendar to create events on a user's google calendar](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/203)
 
-# Testing
+## Testing
 - [Created unit testing for our CreateGroupButton component](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/147)
 - [Created unit testing for our AuthButton component](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/149)
 - [Created unit testing for AppNavBar and DefaultLayout components/ integration testing for user stories #38 and #18](https://github.com/ucsb-cs148-w23/project-t10-weeklyschedulecompiler/pull/164)
